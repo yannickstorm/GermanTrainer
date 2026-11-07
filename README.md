@@ -104,3 +104,9 @@ node german-speaking/tests/e2e_degraded.js       # no mic / no voice / denied mi
 contains the phrases its step hints at. The browser tests mock the speech services (headless Chromium has none) and
 use Chromium's fake microphone. They do not judge how recognition behaves on a real device or how a real German
 voice sounds; try those once on your own phone and desktop.
+
+## Deployment
+
+`.github/workflows/pages.yml` runs `tests/test_core.js` on every push to `main` and, if it passes, publishes the site
+to GitHub Pages at `https://yannickstorm.github.io/GermanTrainer/`. One-time setup: repository **Settings → Pages →
+Source: GitHub Actions**. Pages is served over HTTPS, so the microphone works there.
