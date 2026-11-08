@@ -72,10 +72,30 @@
 
   /* ───────── storage ───────── */
   const KEY = 'sprechstunde/v1';
+  /* ───────── native language (explanations and translations; German stays German) ───────── */
+  SP.LANGS = { en: { name: 'English', de: 'Englisch' }, fr: { name: 'Français', de: 'Französisch' } };
+  function guessLang() {
+    const l = ((navigator.languages && navigator.languages[0]) || navigator.language || 'en').toLowerCase();
+    return Object.keys(SP.LANGS).find((k) => l.startsWith(k)) || 'en';
+  }
+  SP.lang = () => (SP.LANGS[SP.state && SP.state.settings.lang] ? SP.state.settings.lang : 'en');
+  /** Interface text: the English source string is the key. {name} placeholders are filled from vars. */
+  SP.t = function (s, vars) {
+    const dict = (window.I18N || {})[SP.lang()];
+    let out = (dict && dict[s] != null) ? dict[s] : s;
+    if (vars) out = out.replace(/\{(\w+)\}/g, (m, k) => (vars[k] != null ? vars[k] : m));
+    return out;
+  };
+  /** Content gloss (meaning, note, task …) of an item in the learner's language, falling back to English. */
+  SP.g = function (obj, field) {
+    const tr = SP.CONTENT.tr && SP.CONTENT.tr[SP.lang()];
+    const e = tr && obj && obj.id && tr[obj.id];
+    return e && e[field] != null ? e[field] : obj[field];
+  };
   function defaults() {
     return {
       v: 1,
-      settings: { mic: null, rate: 0.9, voice: '', goal: 20, newPerDay: 5, stage: 's1', theme: 'auto' },
+      settings: { mic: null, rate: 0.9, voice: '', goal: 20, newPerDay: 5, stage: 's1', theme: 'auto', lang: guessLang() },
       cards: {}, custom: [], days: {}, flows: [], rp: {}, topics: {}, cando: {}, missions: {}, circ: {}, blitz: [], echo: {}, gaps: []
     };
   }
@@ -168,7 +188,7 @@
     return el;
   };
   SP.noVoiceBanner = () => (SP.Voice.supported && SP.Voice.hasGerman()) ? null :
-    h('div', { class: 'banner' }, h('span', null, 'Dein Browser hat keine deutsche Stimme, deshalb bleibt das Vorlesen stumm. Du kannst trotzdem alles lesen und laut sprechen. Tipp: Installiere in den Systemeinstellungen eine deutsche Sprachausgabe (Chrome und Edge auf Windows und Android haben meist gute Stimmen). / No German voice found on this device.'));
+    h('div', { class: 'banner' }, h('span', null, 'Dein Browser hat keine deutsche Stimme, deshalb bleibt das Vorlesen stumm. Du kannst trotzdem alles lesen und laut sprechen. Tipp: Installiere in den Systemeinstellungen eine deutsche Sprachausgabe (Chrome und Edge auf Windows und Android haben meist gute Stimmen). ' + SP.t('No German voice found on this device.')));
 
   /* ───────── German voice (speech synthesis) ───────── */
   const Voice = (SP.Voice = {
@@ -474,8 +494,25 @@
     if (root === 'ueben' || root === 'echt') tracking = Date.now();
     document.title = 'Sprechstunde';
   };
+  /* ───────── keyboard: Space records/stops, Enter = main button, 1–3 rate ───────── */
+  document.addEventListener('keydown', (e) => {
+    if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+    const tag = (e.target && e.target.tagName) || '';
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || (e.target && e.target.isContentEditable)) return;
+    const onControl = tag === 'BUTTON' || tag === 'A' || tag === 'SUMMARY';
+    const view = document.getElementById('view');
+    const visible = (sel) => Array.from(view.querySelectorAll(sel)).filter((el) => el.offsetParent !== null && !el.disabled);
+    let target = null;
+    if (e.key === ' ' && !onControl) target = visible('.recbtn, .recorder .btn.soft')[0];
+    else if (e.key === 'Enter' && !onControl) target = visible('button.btn.primary, a.btn.primary')[0];
+    else if (/^[1-3]$/.test(e.key)) target = visible('.rate .btn')[+e.key - 1];
+    if (target) { e.preventDefault(); target.click(); }
+  });
+
   SP.start = function () {
     window.addEventListener('hashchange', SP.render);
     SP.render();
+    // installable + offline on the hosted (HTTPS) copy; skipped on localhost so development always sees fresh files
+    if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
   };
 })();

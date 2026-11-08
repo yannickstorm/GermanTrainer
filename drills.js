@@ -38,7 +38,7 @@
       grp.forEach((id) => queue.push({ id, kind: 'intro' }));
       grp.forEach((id) => queue.push({ id, kind: 'recall', fresh: true }));
     }
-    const head = SP.pageHead({ title: 'Redemittel-Karten', sub: 'Say each phrase out loud before you reveal it. Recalling beats re-reading.', back: '#/ueben', backLabel: 'Üben' });
+    const head = SP.pageHead({ title: 'Redemittel-Karten', sub: SP.t('Say each phrase out loud before you reveal it. Recalling beats re-reading.'), back: '#/ueben', backLabel: 'Üben' });
     if (!queue.length) {
       const unseen = order.filter((id) => !state.cards[id]).length;
       return h('div', { class: 'stack' }, head, h('div', { class: 'card' },
@@ -78,10 +78,10 @@
         SP.fill(box, h('div', { class: 'card' },
           h('div', { class: 'row' }, SP.chip('Neu', 'accent'), SP.chip(card.fn || '')),
           SP.phrase(card.de),
-          h('div', { class: 'row nowrap' }, SP.speakBtn(card.de), h('p', { class: 'grow' }, card.en)),
+          h('div', { class: 'row nowrap' }, SP.speakBtn(card.de), h('p', { class: 'grow' }, SP.g(card, 'en'))),
           card.ex ? h('div', { class: 'row nowrap' }, SP.speakBtn(card.ex, { small: true }), h('p', { class: 'ex grow' }, card.ex)) : null,
-          card.note ? h('p', { class: 'note' }, card.note) : null,
-          h('p', { class: 'muted small' }, 'Say it three times out loud, then continue. In a moment you will be asked for it again.'),
+          card.note ? h('p', { class: 'note' }, SP.g(card, 'note')) : null,
+          h('p', { class: 'muted small' }, SP.t('Say it three times out loud, then continue. In a moment you will be asked for it again.')),
           h('button', { class: 'btn primary', type: 'button', onclick: () => { idx++; show(); } }, 'Weiter', icon('right'))));
         return;
       }
@@ -97,7 +97,7 @@
           SP.phrase(card.de),
           h('div', { class: 'row' }, SP.speakBtn(card.de, { label: 'Anhören' }), h('span', { class: 'muted small' }, 'Anhören und nachsprechen')),
           card.ex ? h('div', { class: 'row nowrap' }, SP.speakBtn(card.ex, { small: true }), h('p', { class: 'ex grow' }, card.ex)) : null,
-          card.note ? h('p', { class: 'note' }, card.note) : null);
+          card.note ? h('p', { class: 'note' }, SP.g(card, 'note')) : null);
         const r = (g, label, sub, cls) => h('button', { type: 'button', class: 'btn ' + cls, onclick: () => rate(g) }, label, h('small', null, sub));
         SP.fill(actions, 
           h('p', { class: 'eyebrow' }, 'Wie war es?'),
@@ -119,7 +119,7 @@
       SP.fill(box, h('div', { class: 'card' },
         h('div', { class: 'row' }, SP.chip(item.fresh ? 'Gerade gelernt' : 'Wiederholung', item.fresh ? 'accent' : ''), SP.chip(card.fn || '')),
         h('div', { class: 'eyebrow' }, 'Sag auf Deutsch'),
-        h('h2', { style: 'font-size:1.5rem' }, card.en),
+        h('h2', { style: 'font-size:1.5rem' }, SP.g(card, 'en')),
         answer, rec.el, actions));
     }
     show();
@@ -160,10 +160,10 @@
         const rows = sents.map((s) => h('div', { class: 'row nowrap' }, SP.speakBtn(s, { rate: tempo, small: true }), h('p', { class: 'sentence grow' }, s)));
         SP.fill(body, h('div', { class: 'card' },
           h('div', { class: 'eyebrow' }, 'Schritt 1 · Hören und mitlesen'),
-          h('p', { class: 'muted small' }, 'Listen once through while you read. Notice where the voice pauses and which words are stressed.'),
+          h('p', { class: 'muted small' }, SP.t('Listen once through while you read. Notice where the voice pauses and which words are stressed.')),
           h('button', { type: 'button', class: 'btn soft', onclick: () => playAll(rows.map((r) => r.querySelector('.sentence'))) }, icon('play'), 'Alles anhören'),
           ...rows,
-          h('details', { class: 'acc' }, h('summary', null, 'Übersetzung'), h('div', null, h('p', { class: 'muted' }, stage.echo.en))),
+          h('details', { class: 'acc' }, h('summary', null, 'Übersetzung'), h('div', null, h('p', { class: 'muted' }, SP.g(stage.echo, 'en')))),
           h('button', { type: 'button', class: 'btn primary', onclick: () => { pass = 2; renderPass(); } }, 'Weiter zu Schritt 2', icon('right'))));
       } else if (pass === 2) {
         const items = sents.map((s) => {
@@ -173,7 +173,7 @@
         });
         SP.fill(body, h('div', { class: 'card' },
           h('div', { class: 'eyebrow' }, 'Schritt 2 · Hören, dann nachsprechen'),
-          h('p', { class: 'muted small' }, 'Press play, then repeat the sentence straight away, copying rhythm and melody, not just the words. Do each sentence twice.'),
+          h('p', { class: 'muted small' }, SP.t('Press play, then repeat the sentence straight away, copying rhythm and melody, not just the words. Do each sentence twice.')),
           ...items,
           h('button', { type: 'button', class: 'btn primary', onclick: () => { pass = 3; renderPass(); } }, 'Weiter zu Schritt 3', icon('right'))));
       } else {
@@ -195,7 +195,7 @@
         });
         SP.fill(body, h('div', { class: 'card' },
           h('div', { class: 'eyebrow' }, 'Schritt 3 · Aus dem Gedächtnis'),
-          h('p', { class: 'muted small' }, 'The text is blurred. Say it in your own words as closely as you can remember. Gaps are fine: keep going.'),
+          h('p', { class: 'muted small' }, SP.t('The text is blurred. Say it in your own words as closely as you can remember. Gaps are fine: keep going.')),
           textEl, toggle, rec.el, result));
       }
     }
@@ -203,7 +203,7 @@
     const picker = h('select', { class: 'input', id: 'echo-stage', 'aria-label': 'Text wählen', onchange: (e) => { SP.nav('ueben/echo/' + e.target.value); } },
       CONTENT.stages.map((s) => h('option', { value: s.id, selected: s.id === stage.id }, 'Stufe ' + s.n + ' · ' + s.echo.title)));
     const root = h('div', { class: 'stack' },
-      SP.pageHead({ title: 'Echo: ' + stage.echo.title, sub: 'Shadowing: copy a short model text until the rhythm sits. This is a warm-up, not the main workout.', back: '#/ueben', backLabel: 'Üben' }),
+      SP.pageHead({ title: 'Echo: ' + stage.echo.title, sub: SP.t('Shadowing: copy a short model text until the rhythm sits. This is a warm-up, not the main workout.'), back: '#/ueben', backLabel: 'Üben' }),
       SP.noVoiceBanner(), picker, tempoRow, tabs, body);
     renderPass();
     return root;
@@ -225,7 +225,7 @@
       SP.fill(box, h('div', { class: 'card' },
         h('div', { class: 'eyebrow' }, items.length + ' Reaktionen'),
         h('p', null, 'Du hörst einen Satz. Reagiere sofort, in unter drei Sekunden, mit irgendetwas Natürlichem: Überraschung, Nachfrage, Mitgefühl.'),
-        h('p', { class: 'muted small' }, 'You hear a sentence and answer straight away. Speed beats perfection here: the goal is to stop freezing. ' + (SP.state.settings.mic === 'asr' ? 'Your reaction time is measured.' : '')),
+        h('p', { class: 'muted small' }, SP.t('You hear a sentence and answer straight away. Speed beats perfection here: the goal is to stop freezing. ') + (SP.state.settings.mic === 'asr' ? SP.t('Your reaction time is measured.') : '')),
         SP.noVoiceBanner(),
         h('button', { type: 'button', class: 'btn primary', onclick: () => next() }, 'Los', icon('right'))));
     }
@@ -250,7 +250,7 @@
         const mark = (spont) => { results.push({ spont, lat }); idx++; next(); };
         SP.fill(box, h('div', { class: 'card' },
           h('div', { class: 'row' }, SP.chip((idx + 1) + ' / ' + items.length), lat != null ? SP.chip('Reaktion nach ' + (lat / 1000).toFixed(1).replace('.', ',') + ' s', quick ? 'good' : 'warn') : null),
-          h('div', { class: 'eyebrow' }, 'Du hast gehört'), h('p', { class: 'sentence' }, it.say),
+          h('div', { class: 'eyebrow' }, 'Du hast gehört'), h('div', { class: 'row nowrap' }, SP.speakBtn(it.say, { small: true, label: 'Nochmal hören' }), h('p', { class: 'sentence grow' }, it.say)),
           res && res.transcript ? h('div', { class: 'stack' }, h('div', { class: 'eyebrow' }, 'Du hast gesagt'), h('p', { class: 'sentence' }, res.transcript)) : null,
           h('div', { class: 'eyebrow' }, 'Mögliche Reaktionen'), ...rows,
           h('p', { class: 'eyebrow' }, 'Ehrlich: Wie war es?'),
@@ -261,7 +261,7 @@
       SP.fill(box, h('div', { class: 'card' },
         h('div', { class: 'row' }, SP.chip((idx + 1) + ' / ' + items.length), SP.chip('Stufe ' + (it.stage.slice(1)))),
         status, textP,
-        h('button', { type: 'button', class: 'btn small', onclick: () => { textP.hidden = !textP.hidden; } }, 'Text zeigen / verbergen'),
+        h('div', { class: 'row' }, SP.speakBtn(it.say, { label: 'Nochmal hören' }), h('button', { type: 'button', class: 'btn small', onclick: () => { textP.hidden = !textP.hidden; } }, 'Text zeigen / verbergen')),
         bar, rec.el));
       const heard = await Voice.speak(it.say);
       if (dead || phaseDone) return;
@@ -293,7 +293,7 @@
     }
     intro();
     return h('div', { class: 'stack' },
-      SP.pageHead({ title: 'Blitzreaktionen', sub: 'Train spontaneity: react first, polish later.', back: '#/ueben', backLabel: 'Üben' }), box);
+      SP.pageHead({ title: 'Blitzreaktionen', sub: SP.t('Train spontaneity: react first, polish later.'), back: '#/ueben', backLabel: 'Üben' }), box);
   };
 
   /* ───────── Umschreiben ───────── */
@@ -321,7 +321,7 @@
         const said = rec.last && rec.last.transcript ? C.norm(rec.last.transcript).includes(C.norm(w.word)) : null;
         SP.fill(answer, 
           h('div', { class: 'phrase' }, SP.article(w.art, w.word)),
-          h('div', { class: 'row nowrap' }, SP.speakBtn(w.art + ' ' + w.word, { small: true }), h('p', { class: 'muted grow' }, w.en)),
+          h('div', { class: 'row nowrap' }, SP.speakBtn(w.art + ' ' + w.word, { small: true }), h('p', { class: 'muted grow' }, SP.g(w, 'en'))),
           h('div', { class: 'eyebrow' }, 'Eine mögliche Umschreibung'),
           h('div', { class: 'row nowrap' }, SP.speakBtn(w.sample, { small: true }), h('p', { class: 'ex grow' }, w.sample)),
           said === true ? h('div', { class: 'banner' }, h('span', null, 'Du hast das Wort selbst gesagt. Beim Umschreiben zählt, dass du es ohne das Wort schaffst.')) : (said === false ? h('div', { class: 'banner info' }, h('span', null, 'Du hast das Wort nicht benutzt. Genau das ist die Übung.')) : null));
@@ -332,7 +332,7 @@
       SP.fill(box, h('div', { class: 'card' },
         h('div', { class: 'row' }, SP.chip((idx + 1) + ' / ' + pool.length), SP.chip('30 Sekunden')),
         h('div', { class: 'eyebrow' }, 'Beschreibe dieses Wort, ohne es zu sagen'),
-        h('h2', { style: 'font-size:1.8rem' }, w.en),
+        h('h2', { style: 'font-size:1.8rem' }, SP.g(w, 'en')),
         h('div', { class: 'used' }, ...CONTENT.circHints.map((t) => SP.chip(t, 'accent'))),
         clock, rec.el, answer, actions));
     }
@@ -348,7 +348,7 @@
     }
     show();
     return h('div', { class: 'stack' },
-      SP.pageHead({ title: 'Umschreiben', sub: 'A missing word is not a dead end. Describe it, keep talking, look it up afterwards.', back: '#/ueben', backLabel: 'Üben' }), box);
+      SP.pageHead({ title: 'Umschreiben', sub: SP.t('A missing word is not a dead end. Describe it, keep talking, look it up afterwards.'), back: '#/ueben', backLabel: 'Üben' }), box);
   };
 
   /* ───────── Lückenliste ───────── */
@@ -356,9 +356,14 @@
     const list = h('div', { class: 'stack' });
     const en = h('input', { class: 'input', id: 'gap-en', placeholder: 'z. B. „to get round a word“ oder ein halber Satz', autocomplete: 'off' });
     const de = h('input', { class: 'input', id: 'gap-de', placeholder: 'Deutsch, falls du es schon weißt', autocomplete: 'off' });
-    const dict = h('a', { class: 'btn small', href: 'https://www.dict.cc/?s=', target: '_blank', rel: 'noopener' }, 'In dict.cc nachschlagen');
-    const dwds = h('a', { class: 'btn small', href: 'https://www.dwds.de/?q=', target: '_blank', rel: 'noopener' }, 'DWDS');
-    const upd = () => { const q = encodeURIComponent((en.value || de.value).trim()); dict.href = 'https://www.dict.cc/?s=' + q; dwds.href = 'https://www.dwds.de/?q=' + q; };
+    // dictionaries for the learner's language pair, plus DWDS (German–German)
+    const DICTS = {
+      fr: [['dict.cc', 'https://defr.dict.cc/?s='], ['Linguee', 'https://www.linguee.fr/francais-allemand/search?query=']],
+      en: [['dict.cc', 'https://www.dict.cc/?s='], ['Linguee', 'https://www.linguee.com/english-german/search?query=']]
+    };
+    const links = (DICTS[SP.lang()] || DICTS.en).concat([['DWDS', 'https://www.dwds.de/?q=']])
+      .map(([name, base]) => ({ base, el: h('a', { class: 'btn small', href: base, target: '_blank', rel: 'noopener' }, name) }));
+    const upd = () => { const q = encodeURIComponent((en.value || de.value).trim()); links.forEach((l) => { l.el.href = l.base + q; }); };
     en.addEventListener('input', upd); de.addEventListener('input', upd);
 
     function draw() {
@@ -374,12 +379,12 @@
       }));
     }
     const root = h('div', { class: 'stack' },
-      SP.pageHead({ title: 'Lückenliste', sub: 'Pushed output: trying to say something and failing shows you exactly what to learn next.', back: '#/ueben', backLabel: 'Üben' }),
+      SP.pageHead({ title: 'Lückenliste', sub: SP.t('Pushed output: trying to say something and failing shows you exactly what to learn next.'), back: '#/ueben', backLabel: 'Üben' }),
       h('div', { class: 'card' },
         h('h2', null, 'Was konntest du nicht sagen?'),
         h('label', { class: 'field', for: 'gap-en' }, 'Was wolltest du sagen?', en),
         h('label', { class: 'field', for: 'gap-de' }, 'Auf Deutsch', de),
-        h('div', { class: 'row' }, dict, dwds),
+        h('div', { class: 'row' }, links.map((l) => l.el)),
         h('button', { type: 'button', class: 'btn primary', onclick: () => { if (!en.value.trim() && !de.value.trim()) return; SP.addGap(en.value, de.value); en.value = ''; de.value = ''; upd(); draw(); SP.toast('Notiert'); } }, icon('plus'), 'Hinzufügen'),
         h('p', { class: 'muted small' }, 'Einträge mit deutscher Übersetzung werden automatisch zu Karten und tauchen bei den Wiederholungen auf.')),
       h('button', { type: 'button', class: 'btn', onclick: () => { SP.markDone('luecken'); SP.toast('Okay, für heute abgehakt'); SP.nav('heute'); } }, 'Heute fehlte mir nichts'),

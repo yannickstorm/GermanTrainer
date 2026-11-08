@@ -9,7 +9,6 @@ Speaking out loud, repeatedly, in realistic situations does. Every exercise here
 ## Run it
 
 ```bash
-cd german-speaking
 python3 -m http.server 8000      # then open http://localhost:8000
 ```
 
@@ -24,6 +23,21 @@ Opening `index.html` straight from disk also works, but browsers ask for the mic
 
 The first screen asks how you want to practise: *recording + speech recognition*, *recording only*, or *no microphone*.
 Everything works in all three modes; recognition adds measurements.
+
+## Languages
+
+Exercises are in German. Explanations, phrase meanings, usage notes, role-play situations and tasks are shown in
+your **native language: English or French** (Français), guessed from the browser and changeable on the first screen
+or in the settings. The AI-partner prompt tells the partner your native language too.
+
+Adding a language: copy `i18n.fr.js` and `content.fr.js`, translate the values, add the language to `SP.LANGS` in
+`lib.js`, and load the two files in `index.html` and `sw.js`. `tests/test_core.js` reports anything missing.
+
+## On your phone
+
+Open the hosted site and choose *Add to Home screen* in the browser menu. It then starts like an app and works
+offline (`sw.js` caches the files; it always fetches the newest version when online). Desktop keyboard shortcuts:
+**Space** records or stops, **Enter** presses the main button, **1 2 3** rate a card.
 
 ## What is in it
 
@@ -78,6 +92,8 @@ Apple's; choose recording-only or no microphone to avoid that. The only other ne
 |---|---|
 | `index.html`, `styles.css` | shell and design (light/dark, phone first, tab bar on phones, top bar on desktop) |
 | `content.js` | all learning content: stages, phrases, role-plays, topics, reactions, texts, missions |
+| `content.fr.js`, `i18n.fr.js` | French: content glosses by item id, and interface text keyed by the English string |
+| `sw.js`, `manifest.webmanifest`, `icon*` | offline cache and home-screen install |
 | `core.js` | pure logic: spaced repetition, phrase matching, word diff, plan, progress. Loaded by the page and by Node tests |
 | `lib.js` | DOM helper, storage, German voice, microphone capture, recorder widget, router |
 | `drills.js` | Karten, Echo, Blitz, Umschreiben, Lückenliste |
@@ -95,9 +111,10 @@ Role-play steps name the phrases they hint at (1-based positions in the stage's 
 ## Tests
 
 ```bash
-node german-speaking/tests/test_core.js          # logic and content integrity, no dependencies
-node german-speaking/tests/e2e_happy_path.js     # full browser walkthrough, needs `playwright` + Chromium
-node german-speaking/tests/e2e_degraded.js       # no mic / no voice / denied mic / round timing
+node tests/test_core.js          # logic, content and translation completeness, no dependencies
+node tests/e2e_happy_path.js     # full browser walkthrough, needs `playwright` + Chromium
+node tests/e2e_degraded.js       # no mic / no voice / denied mic / round timing
+node tests/e2e_i18n.js           # every page in French: fails on any visible English sentence
 ```
 
 `test_core.js` also checks the content: every phrase example contains its phrase, and every role-play model answer
@@ -107,6 +124,6 @@ voice sounds; try those once on your own phone and desktop.
 
 ## Deployment
 
-`.github/workflows/pages.yml` runs `tests/test_core.js` on every push to `main` and, if it passes, publishes the site
+`.github/workflows/pages.yml` runs all four test suites on every push and pull request; on `main`, if they pass, it publishes the site
 to GitHub Pages at `https://yannickstorm.github.io/GermanTrainer/`. One-time setup: repository **Settings → Pages →
 Source: GitHub Actions**. Pages is served over HTTPS, so the microphone works there.

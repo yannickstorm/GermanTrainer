@@ -1,49 +1,63 @@
-name: Deploy to GitHub Pages
+name: Test and deploy to GitHub Pages
 
-# Tests the logic and content, then publishes the site (everything except tests/ and .github/) to GitHub Pages.
+# Every push to main: logic/content tests, then the three browser test suites (headless Chromium with a fake
+# microphone), then the site is published to GitHub Pages. A failing test stops the deploy.
 # One-time setup: repository Settings → Pages → Source: "GitHub Actions".
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
-      - name: Logic and content tests
+          node-version: 22
+      - name: Logic, content and translation tests
         run: node tests/test_core.js
+      - name: Install Playwright and Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.49.1
+          npx playwright install --with-deps chromium
+      - name: Browser tests
+        run: |
+          node tests/e2e_happy_path.js
+          node tests/e2e_degraded.js
+          node tests/e2e_i18n.js
+
+  deploy:
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
       - name: Assemble the site
         run: |
           mkdir _site
-          cp index.html styles.css *.js _site/
+          cp index.html styles.css *.js manifest.webmanifest icon.svg icon-*.png _site/
           touch _site/.nojekyll
           ls -la _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - id: deployment
         uses: actions/deploy-pages@v4

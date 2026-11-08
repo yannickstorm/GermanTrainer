@@ -5,6 +5,8 @@ const assert = require('assert');
 const path = require('path');
 const Core = require(path.join(__dirname, '..', 'core.js'));
 const CONTENT = require(path.join(__dirname, '..', 'content.js'));
+require(path.join(__dirname, '..', 'content.fr.js'));
+const I18N = {}; require('vm').runInNewContext(require('fs').readFileSync(path.join(__dirname, '..', 'i18n.fr.js'), 'utf8'), { self: I18N });
 
 let passed = 0;
 function test(name, fn) {
@@ -190,6 +192,50 @@ test('content: Umschreiben items', () => {
     assert.ok(w.en && w.sample && w.id, w.word);
     assert.ok(!Core.norm(w.sample).includes(Core.norm(w.word)), 'sample gives away the word: ' + w.word);
   });
+});
+
+/* ───────── translations ───────── */
+const fs = require('fs');
+const ROOT = path.join(__dirname, '..');
+const unq = (x) => x.replace(/\\'/g, "'");
+function uiKeys() {
+  const keys = new Set();
+  ['lib.js', 'drills.js', 'talks.js', 'pages.js'].forEach((f) => {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    for (const m of src.matchAll(/SP\.t\('((?:[^'\\]|\\.)*)'/g)) keys.add(unq(m[1]));
+  });
+  const core = fs.readFileSync(path.join(ROOT, 'core.js'), 'utf8');      // plan descriptions, translated where shown
+  for (const m of core.matchAll(/\ben: '((?:[^'\\]|\\.)*)'/g)) keys.add(unq(m[1]));
+  return keys;
+}
+test('i18n: every interface string has a French translation', () => {
+  const fr = I18N.I18N.fr;
+  const missing = Array.from(uiKeys()).filter((k) => !(k in fr));
+  assert.deepStrictEqual(missing, [], 'missing French UI strings');
+});
+test('i18n: the French dictionary has no unused entries', () => {
+  const used = uiKeys();
+  const unused = Object.keys(I18N.I18N.fr).filter((k) => !used.has(k));
+  assert.deepStrictEqual(unused, [], 'unused French UI strings');
+});
+test('i18n: French content glosses are complete', () => {
+  const fr = CONTENT.tr.fr, miss = [];
+  const need = (id, field) => { if (!fr[id] || fr[id][field] == null || fr[id][field] === '') miss.push(id + '.' + field); };
+  CONTENT.stages.forEach((st) => {
+    need(st.id, 'en'); need(st.id, 'intro');
+    if (!fr[st.id] || !Array.isArray(fr[st.id].cando) || fr[st.id].cando.length !== st.cando.length) miss.push(st.id + '.cando');
+    st.chunks.forEach((c) => { need(c.id, 'en'); if (c.note) need(c.id, 'note'); });
+    need(st.echo.id, 'en');
+    st.roleplays.forEach((rp) => { need(rp.id, 'en'); need(rp.id, 'setting'); rp.steps.forEach((x) => need(x.id, 'task')); });
+    st.topics.forEach((tp) => need(tp.id, 'en'));
+    st.missions.forEach((m) => need(m.id, 'text'));
+  });
+  CONTENT.circ.forEach((w) => need(w.id, 'en'));
+  assert.deepStrictEqual(miss, [], 'missing French glosses');
+  const known = new Set(Object.keys(CONTENT.byId).concat(CONTENT.stages.map((s) => s.id), CONTENT.stages.map((s) => s.echo.id), CONTENT.circ.map((w) => w.id),
+    CONTENT.stages.flatMap((s) => s.missions.map((m) => m.id)), CONTENT.stages.flatMap((s) => s.roleplays.flatMap((r) => r.steps.map((x) => x.id)))));
+  const orphans = Object.keys(fr).filter((k) => !known.has(k));
+  assert.deepStrictEqual(orphans, [], 'French glosses for unknown ids');
 });
 
 console.log('\n' + passed + ' checks passed' + (process.exitCode ? ', some FAILED' : ''));

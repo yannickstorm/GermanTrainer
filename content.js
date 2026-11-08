@@ -535,7 +535,7 @@
     st.chunks.forEach((ch, i) => { ch.id = st.id + '-c' + (i + 1); ch.stage = st.id; byId[ch.id] = ch; });
     st.roleplays.forEach((rp, i) => {
       rp.id = st.id + '-r' + (i + 1); rp.stage = st.id; byId[rp.id] = rp;
-      rp.steps.forEach((step) => { step.hintIds = step.hint.map((n) => st.id + '-c' + n); });
+      rp.steps.forEach((step, j) => { step.id = rp.id + '-s' + (j + 1); step.hintIds = step.hint.map((n) => st.id + '-c' + n); });
     });
     st.topics.forEach((tp, i) => { tp.id = st.id + '-t' + (i + 1); tp.stage = st.id; byId[tp.id] = tp; });
     st.reactions.forEach((r, i) => { r.id = st.id + '-x' + (i + 1); r.stage = st.id; byId[r.id] = r; });

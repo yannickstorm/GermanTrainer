@@ -17,11 +17,11 @@
     const groups = stagesFromCurrent().map((st) => h('div', { class: 'card' },
       h('div', { class: 'split' }, h('h2', null, 'Stufe ' + st.n + ' · ' + st.title), SP.chip(st.level)),
       h('ul', { class: 'list' }, ...st.roleplays.map((rp) => h('li', null,
-        h('div', { class: 'grow' }, h('b', null, rp.title), h('div', { class: 'muted small' }, rp.en)),
+        h('div', { class: 'grow' }, h('b', null, rp.title), h('div', { class: 'muted small' }, SP.g(rp, 'en'))),
         (state.rp[rp.id] || 0) > 0 ? SP.chip((state.rp[rp.id]) + '×', 'good') : null,
         h('a', { class: 'btn small primary', href: '#/ueben/rollenspiel/' + rp.id }, 'Start'))))));
     return h('div', { class: 'stack' },
-      SP.pageHead({ title: 'Rollenspiele', sub: 'Short, realistic conversations. You answer out loud first, then compare with model answers. Repeat a scene after a few days: the second take is always better.', back: '#/ueben', backLabel: 'Üben' }),
+      SP.pageHead({ title: 'Rollenspiele', sub: SP.t('Short, realistic conversations. You answer out loud first, then compare with model answers. Repeat a scene after a few days: the second take is always better.'), back: '#/ueben', backLabel: 'Üben' }),
       SP.noVoiceBanner(), ...groups);
   }
 
@@ -75,11 +75,11 @@
       drawActions();
       SP.fill(box, 
         SP.bar(i / rp.steps.length),
-        i === 0 ? h('div', { class: 'card tint' }, h('div', { class: 'eyebrow' }, 'Situation'), h('p', null, rp.setting)) : null,
+        i === 0 ? h('div', { class: 'card tint' }, h('div', { class: 'eyebrow' }, 'Situation'), h('p', null, SP.g(rp, 'setting'))) : null,
         h('div', { class: 'card' },
           h('div', { class: 'row' }, SP.chip('Schritt ' + (i + 1) + ' von ' + rp.steps.length, 'accent')),
           chat,
-          h('div', { class: 'card tint', style: 'padding:14px' }, h('div', { class: 'eyebrow' }, 'Deine Aufgabe'), h('p', null, st.task)),
+          h('div', { class: 'card tint', style: 'padding:14px' }, h('div', { class: 'eyebrow' }, 'Deine Aufgabe'), h('p', null, SP.g(st, 'task'))),
           h('details', { class: 'acc' }, h('summary', null, 'Hilfe: Redemittel für diese Antwort'),
             h('div', null, ...hints.map((c) => h('div', { class: 'row nowrap' }, SP.speakBtn(c.de, { small: true }), SP.phrase(c.de, 'phrase sm'))))),
           rec.el, modelBox, actions));
@@ -96,7 +96,7 @@
         h('div', { class: 'eyebrow' }, 'Geschafft'),
         h('h2', null, rp.title),
         h('div', { class: 'row' }, SP.chip(rp.steps.length + ' Schritte'), secs > 0 ? SP.chip(SP.clock(secs) + ' gesprochen', 'good') : null, asr ? SP.chip(usedAll.size + ' von ' + allHints.size + ' Redemitteln benutzt', usedAll.size ? 'good' : '') : null),
-        h('p', { class: 'muted' }, 'Wiederhole dieses Rollenspiel in zwei, drei Tagen. Task repetition makes the second take faster and more accurate, even with the same words.'),
+        h('p', { class: 'muted' }, SP.t('Wiederhole dieses Rollenspiel in zwei, drei Tagen. Task repetition makes the second take faster and more accurate, even with the same words.')),
         h('a', { class: 'btn primary', href: '#/ueben/luecken' }, 'Lücken notieren'),
         h('button', { type: 'button', class: 'btn', onclick: () => { i = 0; secs = 0; history.length = 0; usedAll.clear(); step(); window.scrollTo(0, 0); } }, icon('refresh'), 'Noch einmal spielen'),
         next ? h('a', { class: 'btn', href: '#/ueben/rollenspiel/' + next.id }, 'Nächstes: ' + next.title) : null,
@@ -104,7 +104,7 @@
     }
     step();
     return h('div', { class: 'stack' },
-      SP.pageHead({ title: rp.title, eyebrow: 'Rollenspiel · Stufe ' + stage.n, sub: rp.en, back: '#/ueben/rollenspiel', backLabel: 'Rollenspiele' }),
+      SP.pageHead({ title: rp.title, eyebrow: 'Rollenspiel · Stufe ' + stage.n, sub: SP.g(rp, 'en'), back: '#/ueben/rollenspiel', backLabel: 'Rollenspiele' }),
       SP.noVoiceBanner(), box);
   }
 
@@ -129,7 +129,7 @@
       return h('div', { class: 'card' },
         h('div', { class: 'split' }, h('h2', null, 'Stufe ' + st.n + ' · ' + st.title), SP.chip(st.level)),
         h('ul', { class: 'list' }, ...ts.map((tp) => h('li', { style: 'flex-wrap:wrap' },
-          h('div', { class: 'grow' }, h('b', null, tp.title), h('div', { class: 'muted small' }, tp.en)),
+          h('div', { class: 'grow' }, h('b', null, tp.title), h('div', { class: 'muted small' }, SP.g(tp, 'en'))),
           (state.topics[tp.id] || 0) > 0 ? SP.chip((state.topics[tp.id]) + '×', 'good') : null,
           hrefFor(tp)))));
     });
@@ -140,8 +140,8 @@
       h('a', { class: 'btn small', href: '#/ueben/flow/' + tp.id + '/kurz' }, 'Kurz'),
       h('a', { class: 'btn small primary', href: '#/ueben/flow/' + tp.id + '/lang' }, 'Lang')));
     return h('div', { class: 'stack' },
-      SP.pageHead({ title: 'Flow: 4 · 3 · 2', sub: 'Give the same talk three times, with less time each round. The ideas stay the same, so you can focus on saying them faster and more smoothly.', back: '#/ueben', backLabel: 'Üben' }),
-      h('div', { class: 'card tint' }, h('p', null, h('b', null, 'Lang'), ' = 4, 3, 2 Minuten (≈ 10 Min). ', h('b', null, 'Kurz'), ' = 2, 1½, 1 Minute (≈ 5 Min). Pick a topic you can talk about without looking things up.')),
+      SP.pageHead({ title: 'Flow: 4 · 3 · 2', sub: SP.t('Give the same talk three times, with less time each round. The ideas stay the same, so you can focus on saying them faster and more smoothly.'), back: '#/ueben', backLabel: 'Üben' }),
+      h('div', { class: 'card tint' }, h('p', null, h('b', null, 'Lang'), ' = 4, 3, 2 Minuten (≈ 10 Min). ', h('b', null, 'Kurz'), SP.t(' = 2, 1½, 1 Minute (≈ 5 Min). Pick a topic you can talk about without looking things up.'))),
       ...rows);
   }
 
@@ -153,7 +153,7 @@
     let notes = '', timer = null, dead = false;
     SP.onLeave(() => { dead = true; clearInterval(timer); });
 
-    const head = SP.pageHead({ title: topic.title, eyebrow: 'Flow · ' + modeLabel[mode], sub: topic.en, back: '#/ueben/flow', backLabel: 'Themen' });
+    const head = SP.pageHead({ title: topic.title, eyebrow: 'Flow · ' + modeLabel[mode], sub: SP.g(topic, 'en'), back: '#/ueben/flow', backLabel: 'Themen' });
 
     function prep() {
       const notesEl = h('textarea', { class: 'input', id: 'flow-notes', placeholder: 'Nur Stichwörter, keine ganzen Sätze …', rows: 3 });
@@ -169,7 +169,7 @@
         h('ul', { class: 'stack', style: 'margin:0;padding-left:20px' }, ...topic.points.map((p) => h('li', null, p))),
         h('label', { class: 'field', for: 'flow-notes' }, 'Stichwörter', notesEl),
         h('div', { class: 'row' }, startPrep, clock),
-        h('p', { class: 'muted small' }, 'Planning for about a minute helps content and structure. Write words, not sentences: you want to speak, not read.'),
+        h('p', { class: 'muted small' }, SP.t('Planning for about a minute helps content and structure. Write words, not sentences: you want to speak, not read.')),
         h('div', { class: 'banner info' }, h('span', null, 'Drei Runden, dasselbe Thema, jedes Mal ein anderes Gegenüber und weniger Zeit. Unterbrich dich nicht, um Fehler zu korrigieren: Das machen wir danach.')),
         SP.noVoiceBanner(),
         h('button', { type: 'button', class: 'btn primary', onclick: () => { notes = notesEl.value.trim(); round(0); } }, 'Runde 1 starten', icon('right'))));
@@ -252,10 +252,10 @@
             h('span', null, 'Runde ' + (k + 1)),
             SP.bar(asr ? (r.wpm || 0) / maxW : r.rating / 3, k === 2 ? 'good' : ''),
             h('span', null, asr ? r.wpm + ' / Min.' : ['', 'stockend', 'mal so, mal so', 'flüssig'][r.rating]))),
-          h('p', { class: 'muted small' }, asr ? 'Normal conversation runs at roughly 100–150 words per minute; do not chase the number, watch the direction. A rising line with similar content means retrieval is getting easier.' : 'Turn on speech recognition in the settings to see words per minute here.')),
+          h('p', { class: 'muted small' }, asr ? SP.t('Normal conversation runs at roughly 100–150 words per minute; do not chase the number, watch the direction. A rising line with similar content means retrieval is getting easier.') : SP.t('Turn on speech recognition in the settings to see words per minute here.'))),
         h('div', { class: 'card' },
           h('h2', null, 'Was hat gefehlt?'),
-          h('p', { class: 'muted small' }, 'Noticing the gap is where learning happens. Write down up to three things you wanted to say but could not.'),
+          h('p', { class: 'muted small' }, SP.t('Noticing the gap is where learning happens. Write down up to three things you wanted to say but could not.')),
           ...gaps.map((g, k) => h('div', { class: 'stack' }, h('label', { class: 'field', for: 'fg-en-' + k }, 'Lücke ' + (k + 1), g.en), g.de)),
           h('button', { type: 'button', class: 'btn primary', onclick: () => { let n = 0; gaps.forEach((g) => { if (g.en.value.trim() || g.de.value.trim()) { SP.addGap(g.en.value, g.de.value); n++; } }); SP.toast(n ? n + ' Lücke(n) notiert' : 'Nichts notiert'); SP.nav('heute'); } }, 'Speichern und weiter')),
         h('div', { class: 'card flat' },
@@ -269,11 +269,11 @@
 
   /* ───────── Argument-Gerüst ───────── */
   const FRAME = [
-    { fns: ['Standpunkt'], secs: 20, title: 'Standpunkt', en: 'State your position clearly in one or two sentences.' },
-    { fns: ['Grund'], secs: 35, title: 'Hauptgrund', en: 'Give your strongest reason.' },
-    { fns: ['Beispiel'], secs: 35, title: 'Beispiel', en: 'Make it concrete: a person, a place, a number.' },
-    { fns: ['Zugeständnis', 'Gegenargument'], secs: 40, title: 'Einwand und Antwort', en: 'Admit what speaks against you, then answer it.' },
-    { fns: ['Fazit'], secs: 20, title: 'Fazit', en: 'Close with a one-sentence conclusion.' }
+    { fns: ['Standpunkt'], secs: 20, title: 'Standpunkt', en: SP.t('State your position clearly in one or two sentences.') },
+    { fns: ['Grund'], secs: 35, title: 'Hauptgrund', en: SP.t('Give your strongest reason.') },
+    { fns: ['Beispiel'], secs: 35, title: 'Beispiel', en: SP.t('Make it concrete: a person, a place, a number.') },
+    { fns: ['Zugeständnis', 'Gegenargument'], secs: 40, title: 'Einwand und Antwort', en: SP.t('Admit what speaks against you, then answer it.') },
+    { fns: ['Fazit'], secs: 20, title: 'Fazit', en: SP.t('Close with a one-sentence conclusion.') }
   ];
   function frameChunks(fns) {
     const pool = [CONTENT.stages[2], CONTENT.stages[5]].flatMap((st) => st.chunks).filter((c) => fns.includes(c.fn));
@@ -284,7 +284,7 @@
     if (args[0] && CONTENT.byId[args[0]] && CONTENT.byId[args[0]].kind === 'opinion') return runArgument(CONTENT.byId[args[0]]);
     const rows = topicRows((tp) => tp.kind === 'opinion', (tp) => h('a', { class: 'btn small primary', href: '#/ueben/argument/' + tp.id }, 'Start'));
     return h('div', { class: 'stack' },
-      SP.pageHead({ title: 'Argument-Gerüst', sub: 'Five steps, about 2½ minutes, one topic. The frame tells you what comes next, so you can spend your attention on the German.', back: '#/ueben', backLabel: 'Üben' }),
+      SP.pageHead({ title: 'Argument-Gerüst', sub: SP.t('Five steps, about 2½ minutes, one topic. The frame tells you what comes next, so you can spend your attention on the German.'), back: '#/ueben', backLabel: 'Üben' }),
       h('div', { class: 'card tint' }, h('ol', { style: 'margin:0;padding-left:20px' }, ...FRAME.map((f) => h('li', null, h('b', null, f.title), ' · ' + f.secs + ' s')))),
       ...rows);
   };
@@ -301,7 +301,7 @@
         h('div', { class: 'eyebrow' }, 'Thema'),
         h('h2', null, topic.title),
         h('ul', { style: 'margin:0;padding-left:20px' }, ...topic.points.map((p) => h('li', null, p))),
-        h('p', { class: 'muted small' }, 'Take a position even if you are undecided; this is practice, not a vote. Each step shows phrases that fit it.'),
+        h('p', { class: 'muted small' }, SP.t('Take a position even if you are undecided; this is practice, not a vote. Each step shows phrases that fit it.')),
         h('button', { type: 'button', class: 'btn primary', onclick: run }, 'Start (' + SP.clock(total) + ' Min.)', icon('right'))));
     }
 
@@ -345,7 +345,7 @@
             res.url ? h('audio', { controls: true, src: res.url, 'aria-label': 'Meine Aufnahme' }) : null,
             res.transcript ? h('div', { class: 'stack' }, h('div', { class: 'eyebrow' }, 'Erkannt'), h('p', { class: 'sentence' }, res.transcript)) : null,
             used.length ? h('div', { class: 'used' }, ...used.map((c) => SP.chip('✓ ' + c.de, 'good'))) : null,
-            h('p', { class: 'muted small' }, 'Listen back once. Which step was weakest: position, reason, example, objection or conclusion? Do that step again tomorrow with the same topic.')),
+            h('p', { class: 'muted small' }, SP.t('Listen back once. Which step was weakest: position, reason, example, objection or conclusion? Do that step again tomorrow with the same topic.'))),
           h('a', { class: 'btn primary', href: '#/ueben/luecken' }, 'Lücken notieren'),
           h('a', { class: 'btn', href: '#/ueben/argument/' + topic.id, onclick: () => setTimeout(() => SP.render(), 0) }, icon('refresh'), 'Dasselbe Thema nochmal'),
           h('a', { class: 'btn ghost', href: '#/heute' }, 'Weiter im Plan'));
