@@ -21,6 +21,7 @@ const MOCKS = () => {
   // speech recognition: reports a canned German transcript ~0.8 s after start
   class FakeSR {
     start() {
+      window.__srConfig = { lang: this.lang, continuous: this.continuous, interim: this.interimResults };
       this._on = true;
       setTimeout(() => { if (this._on && this.onspeechstart) this.onspeechstart(); }, 350);
       setTimeout(() => {
@@ -87,6 +88,8 @@ function ok(name, cond, extra) { results.push([cond ? 'ok  ' : 'FAIL', name, ext
   await page.locator('.recbtn.on').first().click();
   await page.waitForTimeout(800);
   ok('recall reveals German after recording', await page.locator('.rate').count() === 1);
+  const sr = await page.evaluate(() => window.__srConfig);
+  ok('speech recognition: Swiss German, continuous, interim results', sr && sr.lang === 'de-CH' && sr.continuous === true && sr.interim === true, JSON.stringify(sr));
   await shot('06-karten-revealed');
   await btn(/Flüssig/).click();
   // rate the rest quickly: reveal then rate

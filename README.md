@@ -1,6 +1,6 @@
 # Sprechstunde
 
-A daily speaking workout for German at **B2 → C1**. Static website, no build step, no dependencies, no account.
+A daily speaking workout in **Swiss Standard German** (*Schweizer Hochdeutsch*, not dialect) at **B2 → C1**. Static website, no build step, no dependencies, no account.
 *Sprechstunde* is the German word for office hours, and literally "speaking hour".
 
 The gap it targets: a B2 learner usually reads and writes better than they speak. Reading more does not fix that.
@@ -23,6 +23,13 @@ Opening `index.html` straight from disk also works, but browsers ask for the mic
 
 The first screen asks how you want to practise: *recording + speech recognition*, *recording only*, or *no microphone*.
 Everything works in all three modes; recognition adds measurements.
+
+## Swiss Standard German
+
+All German follows Swiss conventions: no ß (always *ss*), Swiss vocabulary where it differs (*Velo, zügeln, Ferien,
+Offerte, Vortritt, Primarschule, es hat*), Swiss settings (Gotthard, GA and Halbtax, francs, the Migros). The read-aloud
+voice prefers a Swiss (de-CH) voice when the device has one (Edge offers good ones, e.g. *Leni* and *Jan*), otherwise a
+German one. Speech recognition runs in de-CH. `tests/test_core.js` fails if a ß slips into the content.
 
 ## Languages
 

@@ -188,7 +188,7 @@
     return el;
   };
   SP.noVoiceBanner = () => (SP.Voice.supported && SP.Voice.hasGerman()) ? null :
-    h('div', { class: 'banner' }, h('span', null, 'Dein Browser hat keine deutsche Stimme, deshalb bleibt das Vorlesen stumm. Du kannst trotzdem alles lesen und laut sprechen. Tipp: Installiere in den Systemeinstellungen eine deutsche Sprachausgabe (Chrome und Edge auf Windows und Android haben meist gute Stimmen). ' + SP.t('No German voice found on this device.')));
+    h('div', { class: 'banner' }, h('span', null, 'Dein Browser hat keine deutsche Stimme, deshalb bleibt das Vorlesen stumm. Du kannst trotzdem alles lesen und laut sprechen. Tipp: Installiere in den Systemeinstellungen eine deutsche Sprachausgabe (Edge hat sehr gute Schweizer Stimmen, zum Beispiel „Leni“ und „Jan“). ' + SP.t('No German voice found on this device.')));
 
   /* ───────── German voice (speech synthesis) ───────── */
   const Voice = (SP.Voice = {
@@ -205,7 +205,8 @@
     pick() {
       const want = state.settings.voice;
       if (want) { const v = this.voices.find((x) => x.voiceURI === want); if (v) return v; }
-      const score = (v) => (/de[-_]DE/i.test(v.lang) ? 4 : 0) + (/natural|neural|online/i.test(v.name) ? 5 : 0) + (/google/i.test(v.name) ? 2 : 0) + (/premium|enhanced/i.test(v.name) ? 3 : 0) + (v.localService ? 0 : 1);
+      // Swiss voices first (Schweizer Hochdeutsch), then German, then Austrian
+      const score = (v) => (/de[-_]CH/i.test(v.lang) ? 8 : /de[-_]DE/i.test(v.lang) ? 4 : 0) + (/schweiz|switzerland|swiss/i.test(v.name) ? 2 : 0) + (/natural|neural|online/i.test(v.name) ? 5 : 0) + (/google/i.test(v.name) ? 2 : 0) + (/premium|enhanced/i.test(v.name) ? 3 : 0) + (v.localService ? 0 : 1);
       return this.voices.slice().sort((a, b) => score(b) - score(a))[0] || null;
     },
     clean(text) { return String(text).replace(/…/g, ', ').replace(/\s*,\s*,/g, ',').replace(/\(([^)]*)\)/g, '$1'); },
@@ -218,7 +219,7 @@
           this.cancel();
           const my = ++this.token;
           const u = new SpeechSynthesisUtterance(this.clean(text));
-          u.lang = 'de-DE';
+          u.lang = 'de-CH';
           const v = this.pick();
           if (v) { try { u.voice = v; u.lang = v.lang; } catch (e) { /* a stale voice: fall back to the language tag */ } }
           u.rate = opts.rate || state.settings.rate || 0.9;
@@ -291,7 +292,7 @@
       if (o.asr && SR) {
         let resolveEnd; recogEnded = new Promise((r) => { resolveEnd = r; });
         recog = new SR();
-        recog.lang = 'de-DE'; recog.continuous = true; recog.interimResults = true;
+        recog.lang = 'de-CH'; recog.continuous = true; recog.interimResults = true;   // Swiss Standard German
         recog.onresult = (e) => {
           let interim = '';
           for (let i = e.resultIndex; i < e.results.length; i++) {

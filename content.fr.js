@@ -17,7 +17,7 @@
         'Je sais terminer une conversation poliment et proposer de se revoir.'
       ]
     },
-    's1-c1': { en: 'Alors, comment ça va chez toi ?', note: 'Entrée en matière détendue, avec du. « Na » rend la question amicale plutôt que formelle.' },
+    's1-c1': { en: 'Alors, comment ça va chez toi ?', note: 'Entrée en matière détendue, avec du. Commencer par « Und, » rend la question décontractée ; en Suisse, on l’entend bien plus que le « Na » du nord de l’Allemagne.' },
     's1-c2': { en: 'En ce moment, j’ai beaucoup de choses en cours.', note: 'Une vraie réponse au lieu d’un simple „gut“. Ça donne à l’autre quelque chose sur quoi rebondir.' },
     's1-c3': { en: 'Et toi, tu fais quoi en ce moment ?', note: '„so“ rend la question ouverte et décontractée.' },
     's1-c4': { en: 'Qu’est-ce qui t’amène ici ?', note: 'Un peu joueur. Idéal pour faire connaissance.' },
@@ -72,7 +72,7 @@
     's2-c13': { en: 'Tiens, c’est intéressant !', note: '„ja mal“ exprime une légère surprise.' },
     's2-c14': { en: 'C’est compliqué, c’est comme ça.', note: '„halt“ = c’est comme ça, on n’y peut rien.' },
     's2-e': { en: 'Bon, comment dire … Je me suis complètement perdu l’autre jour. L’hôtel était un peu caché, et mon téléphone était à plat. Enfin, au final une passante m’a abordé, ou plutôt, elle m’a demandé si j’avais besoin d’aide. C’était une belle surprise.' },
-    's2-r1': { en: 'Au magasin de bricolage (un mot manque)', setting: 'Tu veux fixer une étagère lourde au mur mais tu ne connais pas le mot pour les petites chevilles. Le vendeur, Herr Krüger, est poli (Sie). Décris au lieu de passer à l’anglais.' },
+    's2-r1': { en: 'Au magasin de bricolage (un mot manque)', setting: 'Tu veux fixer une étagère lourde au mur mais tu ne connais pas le mot pour les petites chevilles. Le vendeur, Herr Brunner, est poli (Sie). Décris au lieu de passer à l’anglais.' },
     's2-r1-s1': { task: 'Dis que tu as besoin de quelque chose pour fixer des vis dans un mur, mais que tu ne connais pas le mot. Décris-le.' },
     's2-r1-s2': { task: 'Répète le nouveau mot, puis gagne du temps : tu n’es pas sûr du type de mur.' },
     's2-r1-s3': { task: 'Dis que tu as une perceuse mais que tu ne sais pas quel foret il te faut. Demande-lui de te montrer.' },

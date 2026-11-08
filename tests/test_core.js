@@ -185,6 +185,19 @@ test('content: argument stages cover every step of the five-step frame', () => {
     assert.ok(st.topics.some((t) => t.kind === 'opinion'), st.id + ' has no opinion topic');
   });
 });
+test('content: Swiss Standard German (no ß anywhere in the German text)', () => {
+  const bad = [];
+  const scan = (id, txt) => { if (txt && /ß/.test(txt)) bad.push(id + ': ' + txt.slice(0, 50)); };
+  CONTENT.stages.forEach((st) => {
+    st.chunks.forEach((c) => { scan(c.id, c.de); scan(c.id, c.ex); });
+    scan(st.echo.id, st.echo.text);
+    st.roleplays.forEach((rp) => rp.steps.forEach((x) => { scan(x.id, x.npc); x.model.forEach((m) => scan(x.id, m)); }));
+    st.reactions.forEach((r) => { scan(r.id, r.say); r.ok.forEach((o) => scan(r.id, o)); });
+    st.topics.forEach((tp) => { scan(tp.id, tp.title); tp.points.forEach((p) => scan(tp.id, p)); });
+  });
+  CONTENT.circ.forEach((w) => { scan(w.id, w.word); scan(w.id, w.sample); });
+  assert.deepStrictEqual(bad, []);
+});
 test('content: Umschreiben items', () => {
   assert.ok(CONTENT.circ.length >= 12);
   CONTENT.circ.forEach((w) => {

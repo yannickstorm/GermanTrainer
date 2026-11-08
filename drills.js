@@ -355,7 +355,7 @@
   practice.luecken = function () {
     const list = h('div', { class: 'stack' });
     const en = h('input', { class: 'input', id: 'gap-en', placeholder: 'z. B. „to get round a word“ oder ein halber Satz', autocomplete: 'off' });
-    const de = h('input', { class: 'input', id: 'gap-de', placeholder: 'Deutsch, falls du es schon weißt', autocomplete: 'off' });
+    const de = h('input', { class: 'input', id: 'gap-de', placeholder: 'Deutsch, falls du es schon weisst', autocomplete: 'off' });
     // dictionaries for the learner's language pair, plus DWDS (German–German)
     const DICTS = {
       fr: [['dict.cc', 'https://defr.dict.cc/?s='], ['Linguee', 'https://www.linguee.fr/francais-allemand/search?query=']],

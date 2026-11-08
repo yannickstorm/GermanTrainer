@@ -28,15 +28,15 @@
         'I can end a conversation politely and suggest meeting again.'
       ],
       chunks: [
-        c("Na, wie läuft's bei dir?", "So, how's it going with you?", 'Einstieg', "Na, wie läuft's bei dir? Wir haben uns ja ewig nicht gesehen!", "Casual opener with du. „Na“ makes it friendly instead of formal."),
+        c("Und, wie läuft's bei dir?", "So, how's it going with you?", 'Einstieg', "Und, wie läuft's bei dir? Wir haben uns ja ewig nicht gesehen!", "Casual opener with du. Starting with „Und,“ makes it relaxed; in Switzerland you will hear it far more than the northern „Na“."),
         c("Bei mir ist gerade ziemlich viel los.", "Things are pretty hectic for me right now.", 'Antworten', "Bei mir ist gerade ziemlich viel los – wir ziehen nächste Woche um.", "A real answer instead of just „gut“. It gives the other person something to ask about."),
-        c("Und was treibst du so?", "And what are you up to these days?", 'Nachfragen', "Und was treibst du so, außer arbeiten?", "„so“ makes the question open and relaxed."),
+        c("Und was treibst du so?", "And what are you up to these days?", 'Nachfragen', "Und was treibst du so, ausser arbeiten?", "„so“ makes the question open and relaxed."),
         c("Was verschlägt dich hierher?", "What brings you here?", 'Nachfragen', "Du bist nicht von hier, oder? Was verschlägt dich hierher?", "Slightly playful. Good for meeting new people."),
         c("Echt? Erzähl mal!", "Really? Tell me about it!", 'Reagieren', "Du warst in Japan? Echt? Erzähl mal!", "The classic way to hand the floor back."),
         c("Wie kommt's?", "How come?", 'Nachfragen', "Du ziehst nach Leipzig? Wie kommt's?", "A short follow-up that works for any surprising news."),
-        c("Das kenne ich gut!", "I know that well!", 'Reagieren', "Stau auf der A8? Das kenne ich gut!", "Builds rapport by sharing the experience."),
+        c("Das kenne ich gut!", "I know that well!", 'Reagieren', "Stau vor dem Gotthard? Das kenne ich gut!", "Builds rapport by sharing the experience."),
         c("Das hätte ich nicht gedacht.", "I wouldn't have thought that.", 'Reagieren', "Fünf Sprachen? Das hätte ich nicht gedacht.", "Konjunktiv II of „denken“, very common in speech."),
-        c("Apropos …", "Speaking of which …", 'Themenwechsel', "Apropos Urlaub: Wohin fährst du dieses Jahr?"),
+        c("Apropos …", "Speaking of which …", 'Themenwechsel', "Apropos Ferien: Wohin gehst du dieses Jahr?"),
         c("Wo wir gerade dabei sind, …", "While we're on the subject, …", 'Themenwechsel', "Wo wir gerade dabei sind: Hast du die Einladung schon bekommen?"),
         c("Du, ich muss gleich weiter, …", "Listen, I've got to head off in a moment, …", 'Abschluss', "Du, ich muss gleich weiter, mein Zug fährt in zehn Minuten.", "„Du,“ at the start signals a polite interruption."),
         c("Wir sollten das bald mal wiederholen.", "We should do this again soon.", 'Abschluss', null, "„bald mal“ keeps it casual and non-binding."),
@@ -44,13 +44,13 @@
       ],
       echo: {
         title: 'Neu in der Gegend',
-        text: 'Also, bei mir ist gerade ziemlich viel los. Wir sind vor drei Wochen umgezogen, und ehrlich gesagt sind die Kartons immer noch nicht ausgepackt. Aber die Gegend gefällt mir richtig gut: Es gibt einen kleinen Park um die Ecke, und samstags ist ein Markt. Du, wir sollten uns bald mal treffen. Hast du nächste Woche Zeit?',
+        text: 'Also, bei mir ist gerade ziemlich viel los. Wir haben vor drei Wochen gezügelt, und ehrlich gesagt sind die Kartons immer noch nicht ausgepackt. Aber die Gegend gefällt mir richtig gut: Es gibt einen kleinen Park um die Ecke, und am Samstag hat es einen Markt. Du, wir sollten uns bald mal treffen. Hast du nächste Woche Zeit?',
         en: 'Well, things are pretty hectic for me right now. We moved three weeks ago and, honestly, the boxes still aren\'t unpacked. But I really like the area: there\'s a little park around the corner and a market on Saturdays. Listen, we should meet up soon. Do you have time next week?'
       },
       reactions: [
         x('Ich habe gestern endlich meine Wohnung gefunden!', 'Echt? Glückwunsch! Wo ist sie denn?', 'Na endlich! Erzähl mal, wie ist sie?'),
         x('Ich war letzte Woche zum ersten Mal beim Bouldern.', 'Cool! Und, wie war\'s?', 'Echt? Das wollte ich auch schon immer mal ausprobieren.'),
-        x('Mein Chef hat gesagt, dass ich nächsten Monat nach Hamburg versetzt werde.', 'Ach, wirklich? Und wie findest du das?', 'Wow, das kommt überraschend! Freust du dich?'),
+        x('Mein Chef hat gesagt, dass ich nächsten Monat nach Genf versetzt werde.', 'Ach, wirklich? Und wie findest du das?', 'Wow, das kommt überraschend! Freust du dich?'),
         x('Ich bin so müde, ich habe die ganze Nacht nicht geschlafen.', 'Oje, das tut mir leid. Wie kommt\'s?', 'Das kenne ich gut. Brauchst du einen Kaffee?'),
         x('Wir fahren im Sommer drei Wochen nach Portugal.', 'Wie schön! Wo genau fahrt ihr hin?', 'Beneidenswert! Wie kommt\'s, dass ihr so lange frei habt?')
       ],
@@ -64,9 +64,9 @@
             s('Schon seit acht Jahren. Ehrlich gesagt gefällt es mir hier sehr gut. Und du, was machst du so?',
               'Say what you do and add one detail about how things are going. Do not stop at one word.', [2],
               'Ich arbeite als Softwareentwickler in einer kleinen Firma. Bei mir ist gerade ziemlich viel los, wir starten ein neues Projekt. Und du?'),
-            s('Ich bin Lehrerin, Grundschule. Anstrengend, aber ich liebe es. Du, entschuldige mich kurz, ich glaube, mein Mann winkt mich schon.',
+            s('Ich bin Primarlehrerin. Anstrengend, aber ich liebe es. Du, entschuldige mich kurz, ich glaube, mein Mann winkt mich schon.',
               'React warmly, then end the conversation politely and suggest meeting again.', [8, 12],
-              'Echt? Grundschule, das hätte ich nicht gedacht – du wirkst so ruhig! Klar, geh ruhig. Wir sollten das bald mal wiederholen.')
+              'Echt? Primarlehrerin, das hätte ich nicht gedacht – du wirkst so ruhig! Klar, geh ruhig. Wir sollten das bald mal wiederholen.')
           ]
         },
         {
@@ -75,10 +75,10 @@
             s('Schon wieder Verspätung. Fahren Sie öfter diese Strecke?',
               'Agree, say how often you take this route, and ask something back (Sie).', [7],
               'Ja, leider fast jede Woche. Das kenne ich gut – meistens kommt der Zug irgendwann doch noch an. Und Sie?'),
-            s('Ich pendle jeden Tag von Augsburg nach München. Da gewöhnt man sich dran.',
+            s('Ich pendle jeden Tag von Aarau nach Zürich. Da gewöhnt man sich dran.',
               'Show surprise and ask a follow-up question.', [8, 6],
-              'Jeden Tag? Das hätte ich nicht gedacht. Wie kommt es, dass Sie nicht einfach umziehen?'),
-            s('Meine Frau arbeitet in Augsburg, und die Kinder gehen dort zur Schule. Und Sie, Sie sind nicht von hier, oder?',
+              'Jeden Tag? Das hätte ich nicht gedacht. Wie kommt es, dass Sie nicht einfach nach Zürich zügeln?'),
+            s('Meine Frau arbeitet in Aarau, und die Kinder gehen dort zur Schule. Und Sie, Sie sind nicht von hier, oder?',
               'Say briefly why you are here, then change the topic smoothly.', [9],
               'Nein, ich bin vor zwei Jahren der Arbeit wegen hierhergezogen. Apropos Schule: Ist das Schulsystem hier wirklich so streng, wie alle sagen?')
           ]
@@ -112,7 +112,7 @@
         c("Wie soll ich sagen …", "How should I put it …", 'Zeit gewinnen', "Wie soll ich sagen … Es war irgendwie komisch."),
         c("Moment, lass mich kurz nachdenken.", "Hang on, let me think for a second.", 'Zeit gewinnen', null, "Honest and natural, much better than silence. With Sie: „Moment, lassen Sie mich kurz nachdenken.“"),
         c("Das Wort liegt mir auf der Zunge.", "The word is on the tip of my tongue.", 'Wort suchen', "Das Wort liegt mir auf der Zunge – es fängt mit „V“ an."),
-        c("Wie heißt das noch mal?", "What's it called again?", 'Wort suchen', "Dieses Ding für die Wand, wie heißt das noch mal?"),
+        c("Wie heisst das noch mal?", "What's it called again?", 'Wort suchen', "Dieses Ding für die Wand, wie heisst das noch mal?"),
         c("Das ist so etwas wie …", "It's something like …", 'Wort suchen', "Das ist so etwas wie eine Powerbank – ein kleiner Akku zum Mitnehmen.", "Your best tool when a word is missing: say what it is similar to."),
         c("Anders gesagt, …", "In other words, …", 'Umformulieren', "Anders gesagt, wir haben kein Geld mehr."),
         c("Oder besser gesagt, …", "Or rather, …", 'Umformulieren', "Ich war gestern im Büro, oder besser gesagt, kurz davor.", "Self-correction in mid-sentence sounds confident, not weak."),
@@ -128,7 +128,7 @@
         en: 'Well, how shall I put it … I got completely lost the other day. The hotel was kind of hidden, and my phone was dead. Well, in the end a passer-by spoke to me, or rather, she asked whether I needed help. That was a nice surprise.'
       },
       reactions: [
-        x('Kennst du dieses Ding, mit dem man Eier trennt? Wie heißt das noch mal?', 'Hm, Moment, das Wort liegt mir auf der Zunge … ein Eiertrenner?', 'Ach, du meinst so etwas wie ein kleines Sieb? Keine Ahnung, wie das heißt.'),
+        x('Kennst du dieses Ding, mit dem man Eier trennt? Wie heisst das noch mal?', 'Hm, Moment, das Wort liegt mir auf der Zunge … ein Eiertrenner?', 'Ach, du meinst so etwas wie ein kleines Sieb? Keine Ahnung, wie das heisst.'),
         x('Warum bist du eigentlich so spät dran?', 'Na ja, der Bus ist mir vor der Nase weggefahren.', 'Tut mir leid, irgendwie ist heute alles schiefgelaufen.'),
         x('Wie findest du eigentlich den neuen Chef?', 'Hm, wie soll ich sagen … Er ist halt sehr anders.', 'Also, ich kenne ihn noch nicht richtig, aber er wirkt nett.'),
         x('Hast du morgen Zeit? Wir könnten ins Kino gehen.', 'Ja, gern! Was läuft denn?', 'Moment, lass mich kurz in den Kalender schauen.'),
@@ -136,17 +136,17 @@
       ],
       roleplays: [
         {
-          title: 'Im Baumarkt', en: 'In the DIY shop (a word is missing)', setting: 'You want to hang a heavy shelf on a wall but do not know the word for the little plugs. The sales assistant, Herr Krüger, is polite (Sie). Describe instead of switching to English.',
+          title: 'Im Baumarkt', en: 'In the DIY shop (a word is missing)', setting: 'You want to hang a heavy shelf on a wall but do not know the word for the little plugs. The sales assistant, Herr Brunner, is polite (Sie). Describe instead of switching to English.',
           steps: [
             s('Guten Tag, kann ich Ihnen helfen?',
               'Say you need something to fix screws in a wall, but you do not know the word. Describe it.', [7, 6],
-              'Ja, bitte. Ich suche etwas für die Wand, das ist so etwas wie ein kleines Plastikstück, das man in die Wand steckt, damit die Schraube hält. Wie heißt das noch mal?'),
+              'Ja, bitte. Ich suche etwas für die Wand, das ist so etwas wie ein kleines Plastikstück, das man in die Wand steckt, damit die Schraube hält. Wie heisst das noch mal?'),
             s('Ah, Dübel meinen Sie. Für welche Wand denn? Beton oder Rigips?',
               'Repeat the new word, then buy time: you are not sure about the wall.', [1],
               'Genau, Dübel! Moment, lassen Sie mich kurz nachdenken … Also, ich glaube, es ist Beton, aber so ganz sicher bin ich nicht.'),
             s('Dann nehmen Sie am besten diese hier, und dazu einen Steinbohrer. Haben Sie eine Bohrmaschine?',
               'Say you have a drill but are unsure which bit you need. Ask him to show you.', [1, 10],
-              'Also, eine Bohrmaschine habe ich schon, aber irgendwie weiß ich nicht, welchen Bohrer ich dafür brauche. Können Sie mir kurz zeigen, was ich nehmen muss?')
+              'Also, eine Bohrmaschine habe ich schon, aber irgendwie weiss ich nicht, welchen Bohrer ich dafür brauche. Können Sie mir kurz zeigen, was ich nehmen muss?')
           ]
         },
         {
@@ -192,7 +192,7 @@
         c("Das liegt vor allem daran, dass …", "That's mainly because …", 'Grund', "Das liegt vor allem daran, dass man viel Zeit für den Arbeitsweg spart."),
         c("Ein wichtiger Grund dafür ist, dass …", "An important reason for this is that …", 'Grund', "Ein wichtiger Grund dafür ist, dass die Mieten so hoch sind."),
         c("Nehmen wir zum Beispiel …", "Take, for example, …", 'Beispiel', "Nehmen wir zum Beispiel meine Kollegin: Sie spart jeden Tag zwei Stunden Pendelzeit."),
-        c("Ein typisches Beispiel dafür ist …", "A typical example of this is …", 'Beispiel', "Ein typisches Beispiel dafür ist die Bahn: Sie ist nie pünktlich."),
+        c("Ein typisches Beispiel dafür ist …", "A typical example of this is …", 'Beispiel', "Ein typisches Beispiel dafür ist das Velo: In der Stadt ist man damit oft schneller als mit dem Auto."),
         c("Es stimmt zwar, dass …, aber …", "It's true that …, but …", 'Zugeständnis', "Es stimmt zwar, dass es teurer ist, aber die Qualität ist viel besser.", "Concede first, then turn. Two slots."),
         c("Da hast du einen Punkt.", "You've got a point there.", 'Zugeständnis', null, "Shows you listen, and buys goodwill before you disagree."),
         c("Dagegen spricht allerdings, dass …", "Against that, however, is the fact that …", 'Gegenargument', "Dagegen spricht allerdings, dass nicht jeder Beruf von zu Hause funktioniert."),
@@ -211,7 +211,7 @@
       reactions: [
         x('Ich finde, man sollte Fleisch komplett verbieten.', 'Da muss ich dir widersprechen. Ein Verbot geht mir zu weit.', 'Na ja, ich sehe das ein bisschen anders. Weniger Fleisch wäre gut, aber verbieten?'),
         x('Jeder kann doch von zu Hause arbeiten, das ist doch kein Problem.', 'Es stimmt zwar, dass viele das können, aber nicht jeder Beruf geht von zu Hause.', 'Dagegen spricht allerdings, dass man nicht überall Platz dafür hat.'),
-        x('Das Deutschlandticket ist das Beste, was uns passiert ist.', 'Da hast du einen Punkt. Es spart wirklich viel Geld.', 'Meiner Meinung nach ist es gut, aber auf dem Land fehlen Verbindungen.'),
+        x('Das GA ist das Beste, was man sich kaufen kann.', 'Da hast du einen Punkt. Wer viel Zug fährt, spart wirklich viel Geld.', 'Meiner Meinung nach ist es gut, aber für Gelegenheitsfahrer lohnt sich das Halbtax mehr.'),
         x('Fernsehen ist reine Zeitverschwendung.', 'Hm, so pauschal würde ich das nicht sagen. Es kommt darauf an, was man schaut.', 'Das mag sein, trotzdem lerne ich durch Dokus viel.'),
         x('Man lernt eine Sprache am besten nur durch Zuhören.', 'Zuhören ist wichtig, aber man darf nicht vergessen, dass man auch sprechen muss.', 'Da muss ich dir widersprechen. Ohne Sprechen bleibt der Wortschatz passiv.')
       ],
@@ -222,16 +222,16 @@
             s('Hast du gelesen, dass unsere Firma über eine Vier-Tage-Woche nachdenkt? Ich finde, das ist die Zukunft. Was meinst du?',
               'State your opinion clearly and give one reason.', [1, 3],
               'Meiner Meinung nach ist das eine gute Idee. Das liegt vor allem daran, dass viele nach fünf Arbeitstagen einfach erschöpft sind und dann weniger produktiv arbeiten.'),
-            s('Genau! In Island hat der Test super funktioniert. Aber ob das bei uns im Kundenservice geht, weiß ich nicht.',
+            s('Genau! In Island hat der Test super funktioniert. Aber ob das bei uns im Kundendienst geht, weiss ich nicht.',
               'Concede a point, then give an example.', [7, 5],
-              'Es stimmt zwar, dass das im Kundenservice schwieriger ist, aber nehmen wir zum Beispiel Schichtmodelle: Jeder könnte vier längere Tage arbeiten, und das Team wäre trotzdem jeden Tag besetzt.'),
-            s('Hm, vier lange Tage … Ich weiß nicht, ob das wirklich besser ist. Zehn Stunden am Stück sind auch anstrengend.',
+              'Es stimmt zwar, dass das im Kundendienst schwieriger ist, aber nehmen wir zum Beispiel Schichtmodelle: Jeder könnte vier längere Tage arbeiten, und das Team wäre trotzdem jeden Tag besetzt.'),
+            s('Hm, vier lange Tage … Ich weiss nicht, ob das wirklich besser ist. Zehn Stunden am Stück sind auch anstrengend.',
               'Accept his point, answer it, and close with a conclusion.', [8, 11, 12],
               'Da hast du einen Punkt. Das mag sein, trotzdem überwiegt für mich der Vorteil des langen Wochenendes. Alles in allem würde ich sagen, dass wir es zumindest ausprobieren sollten.')
           ]
         },
         {
-          title: 'Urlaubsstreit', en: 'A holiday disagreement', setting: 'Your sister wants a beach holiday, you want a city break. Be friendly, but do not give in too fast. Use du.',
+          title: 'Streit um die Ferien', en: 'A holiday disagreement', setting: 'Your sister wants a beach holiday, you want a city break. Be friendly, but do not give in too fast. Use du.',
           steps: [
             s('Ich möchte dieses Jahr unbedingt an den Strand. Städtereisen sind doch nur Stress. Was meinst du?',
               'Disagree politely and give a reason.', [15, 2, 3],
@@ -248,7 +248,7 @@
       topics: [
         t('Sollte man in der Stadt ein Auto besitzen?', 'Should you own a car in the city?', 'opinion', 'Was spricht dafür?', 'Was spricht dagegen?', 'Was zeigt deine eigene Erfahrung?'),
         t('Homeoffice: Gewinn oder Verlust?', 'Working from home: gain or loss?', 'opinion', 'Was spricht dafür?', 'Was spricht dagegen?', 'Was zeigt deine eigene Erfahrung?'),
-        t('Sollten Kinder schon in der Grundschule programmieren lernen?', 'Should primary-school children learn to code?', 'opinion', 'Was spricht dafür?', 'Was spricht dagegen?', 'Was würdest du selbst gern früher gelernt haben?'),
+        t('Sollten Kinder schon in der Primarschule programmieren lernen?', 'Should primary-school children learn to code?', 'opinion', 'Was spricht dafür?', 'Was spricht dagegen?', 'Was würdest du selbst gern früher gelernt haben?'),
         t('Soziale Medien: mehr Nutzen oder mehr Schaden?', 'Social media: more benefit or more harm?', 'opinion', 'Was spricht dafür?', 'Was spricht dagegen?', 'Wie nutzt du selbst soziale Medien?')
       ],
       missions: [
@@ -270,7 +270,7 @@
       chunks: [
         c("Neulich ist mir etwas Komisches passiert.", "Something funny happened to me the other day.", 'Einstieg', null, "A classic story opener."),
         c("Stell dir vor, …", "Imagine this, …", 'Einstieg', "Stell dir vor, gestern stand plötzlich mein Chef vor meiner Tür!"),
-        c("Das war so: …", "It went like this: …", 'Einstieg', "Das war so: Ich hatte den Zug verpasst und musste zu Fuß gehen."),
+        c("Das war so: …", "It went like this: …", 'Einstieg', "Das war so: Ich hatte den Zug verpasst und musste zu Fuss gehen."),
         c("Gerade als …, …", "Just as …, …", 'Ablauf', "Gerade als ich losfahren wollte, fing es an zu regnen."),
         c("Im selben Moment …", "At that very moment …", 'Ablauf', "Im selben Moment klingelte mein Handy."),
         c("Ausgerechnet …", "Of all things / people / days …", 'Drama', "Ausgerechnet heute hat der Zug Verspätung.", "Adds irony or bad luck."),
@@ -289,17 +289,17 @@
         en: 'Something funny happened to me the other day. I was standing at the bus stop when a man suddenly came up to me and said I had his umbrella. Of all things! I could hardly believe it. As it turned out, we really did have the same umbrella. In the end we both had to laugh. The moral of the story: never buy the umbrella everyone has.'
       },
       reactions: [
-        x('Du glaubst nicht, wen ich gestern im Supermarkt getroffen habe!', 'Nein, wen denn? Erzähl!', 'Jetzt bin ich aber gespannt!'),
+        x('Du glaubst nicht, wen ich gestern in der Migros getroffen habe!', 'Nein, wen denn? Erzähl!', 'Jetzt bin ich aber gespannt!'),
         x('Ich habe mein Handy in den See fallen lassen.', 'Nein! Und, ist es noch zu retten?', 'Das ist ja ärgerlich. Wie ist das denn passiert?'),
-        x('Stell dir vor, ich habe im Lotto gewonnen – fünfzig Euro.', 'Haha, immerhin! Was machst du damit?', 'Na, das reicht doch für ein schönes Abendessen!'),
-        x('Mein Flug wurde gestrichen, ich saß acht Stunden am Flughafen fest.', 'Oje, wie schrecklich! Und wie ging es weiter?', 'Das ist echt ärgerlich. Hat die Airline wenigstens etwas gezahlt?'),
+        x('Stell dir vor, ich habe im Lotto gewonnen – fünfzig Franken.', 'Haha, immerhin! Was machst du damit?', 'Super, das reicht doch für ein feines Abendessen!'),
+        x('Mein Flug wurde gestrichen, ich sass acht Stunden am Flughafen fest.', 'Oje, wie schrecklich! Und wie ging es weiter?', 'Das ist echt ärgerlich. Hat die Airline wenigstens etwas bezahlt?'),
         x('Gestern hat mich ein Kollege angerufen, den ich seit zehn Jahren nicht gesprochen habe.', 'Wirklich? Das ist ja ein Zufall! Was wollte er denn?', 'Wie schön! Und worüber habt ihr geredet?')
       ],
       roleplays: [
         {
           title: 'Montag im Büro', en: 'Monday at the office', setting: 'Your colleague Sven asks how your weekend was. Tell an anecdote. Use du.',
           steps: [
-            s('Na, wie war dein Wochenende? Du siehst müde aus.',
+            s('Und, wie war dein Wochenende? Du siehst müde aus.',
               'Start a story about something unexpected that happened.', [2, 1],
               'Stell dir vor, ich habe am Samstag meinen Schlüssel verloren und stand stundenlang vor der Tür!',
               'Neulich ist mir etwas Komisches passiert: Ich habe am Samstag meinen Schlüssel verloren und stand stundenlang vor der Tür!'),
@@ -371,7 +371,7 @@
         en: 'I understand your point of view, but I think there has been a misunderstanding. I noticed that the invoice was charged twice. I can\'t accept that. Would you be willing to refund the amount today? How about we sort it out right now on the phone?'
       },
       reactions: [
-        x('Kannst du mir bis morgen hundert Euro leihen?', 'Das passt mir gerade leider gar nicht. Ich bin selbst knapp bei Kasse.', 'Ich würde gern helfen, aber ich habe diesen Monat selbst nicht viel übrig.'),
+        x('Kannst du mir bis morgen hundert Franken leihen?', 'Das passt mir gerade leider gar nicht. Ich bin selbst knapp bei Kasse.', 'Ich würde gern helfen, aber ich habe diesen Monat selbst nicht viel übrig.'),
         x('Sie haben meine Bestellung falsch eingepackt!', 'Es tut mir wirklich leid. Das war unser Fehler. Wie kann ich das wiedergutmachen?', 'Dürfte ich kurz nachfragen, was genau fehlt?'),
         x('Du bist heute schon zum dritten Mal zu spät gekommen.', 'Es tut mir wirklich leid, das war mein Fehler. Ab morgen fahre ich früher los.', 'Du hast recht, und es tut mir leid. Ich fahre ab morgen früher los.'),
         x('Ich überlege, meinen Job zu kündigen. Was würdest du tun?', 'An deiner Stelle würde ich erst einmal in Ruhe darüber nachdenken.', 'Wie wäre es, wenn du zuerst mit deinem Chef sprichst?'),
@@ -381,7 +381,7 @@
         {
           title: 'Beschwerde beim Vermieter', en: 'Complaint to the landlord', setting: 'The heating in your flat has been broken for a week. You call the property manager, Herr Hartmann (Sie). Stay polite but firm.',
           steps: [
-            s('Hartmann, Hausverwaltung. Was kann ich für Sie tun?',
+            s('Hartmann, Liegenschaftsverwaltung. Was kann ich für Sie tun?',
               'State your complaint politely: the heating has not worked for over a week.', [4],
               'Guten Tag, Herr Hartmann. Ich möchte mich über die Heizung in meiner Wohnung beschweren. Sie funktioniert seit über einer Woche nicht mehr, und nachts wird es richtig kalt.'),
             s('Hm, ich habe dazu keine Meldung bekommen. Ich glaube, das ist eher ein Problem mit Ihrem Thermostat.',
@@ -453,7 +453,7 @@
         en: 'To sum up, the question cannot be answered across the board. Of course it cannot be dismissed that new technologies change jobs. But one should differentiate: according to studies, new professions emerge as well. Ultimately it depends on whether education and further training keep pace with the change.'
       },
       reactions: [
-        x('Wirtschaftswachstum und Klimaschutz schließen sich doch aus.', 'Das greift meiner Ansicht nach zu kurz. Man sollte differenzieren.', 'Das lässt sich pauschal nicht sagen.'),
+        x('Wirtschaftswachstum und Klimaschutz schliessen sich doch aus.', 'Das greift meiner Ansicht nach zu kurz. Man sollte differenzieren.', 'Das lässt sich pauschal nicht sagen.'),
         x('Künstliche Intelligenz wird die Hälfte aller Jobs vernichten.', 'Dem steht allerdings entgegen, dass auch neue Berufe entstehen.', 'Untersuchungen zufolge verändert sich eher der Inhalt der Arbeit.'),
         x('Eine Vier-Tage-Woche ist für kleine Firmen unbezahlbar.', 'Natürlich ist nicht von der Hand zu weisen, dass das teuer wird. Aber …', 'Könnten Sie das näher ausführen?'),
         x('Die Wahrheit liegt doch immer in der Mitte.', 'Letztlich kommt es darauf an, um welche Frage es geht.', 'Das würde ich so nicht sagen. Manche Positionen sind einfach besser begründet.'),
@@ -479,10 +479,10 @@
           steps: [
             s('Bitte, Sie haben das Wort. Sie haben fünf Minuten für Ihren Vortrag.',
               'Open the talk: say what it is about and how it is structured.', [14, 15],
-              'Vielen Dank. Ich möchte Ihnen heute unser Projekt zur Reduzierung von Verpackungsmüll vorstellen. Mein Vortrag gliedert sich in drei Teile: die Ausgangslage, unsere Maßnahmen und die Ergebnisse.'),
+              'Vielen Dank. Ich möchte Ihnen heute unser Projekt zur Reduzierung von Verpackungsmüll vorstellen. Mein Vortrag gliedert sich in drei Teile: die Ausgangslage, unsere Massnahmen und die Ergebnisse.'),
             s('Vielen Dank für den Vortrag. Mich würde interessieren, wie sicher Sie sind, dass diese Einsparungen auch dauerhaft sind.',
               'Answer carefully: hedge, cite a source and say what it depends on.', [12, 5, 11],
-              'Das lässt sich pauschal nicht sagen. Untersuchungen zufolge sinken die Mengen im ersten Jahr deutlich, aber letztlich kommt es darauf an, ob die Mitarbeiter die Regeln auch langfristig umsetzen.'),
+              'Das lässt sich pauschal nicht sagen. Untersuchungen zufolge sinken die Mengen im ersten Jahr deutlich, aber letztlich kommt es darauf an, ob die Mitarbeitenden die Regeln auch langfristig umsetzen.'),
             s('Und was wäre Ihre Empfehlung für Unternehmen mit weniger Budget?',
               'Give a recommendation, say what it ultimately depends on, and invite further questions.', [11],
               'Dann würde ich empfehlen, mit einem kleinen Pilotprojekt zu beginnen. Letztlich kommt es darauf an, ob man klein anfängt und Erfolge sichtbar macht. Haben Sie dazu noch Fragen?')
@@ -505,19 +505,19 @@
   /* Umschreiben: describe the word without saying it. */
   const circ = [
     { art: 'der', word: 'Korkenzieher', en: 'corkscrew', sample: 'Das ist so ein Ding, mit dem man Weinflaschen aufmacht.' },
-    { art: 'die', word: 'Gießkanne', en: 'watering can', sample: 'Das ist ein Behälter mit einem langen Rohr, damit gießt man Blumen.' },
-    { art: 'der', word: 'Wasserkocher', en: 'electric kettle', sample: 'Das ist ein Gerät in der Küche, in dem man sehr schnell Wasser heiß macht.' },
+    { art: 'die', word: 'Giesskanne', en: 'watering can', sample: 'Das ist ein Behälter mit einem langen Rohr, damit giesst man Blumen.' },
+    { art: 'der', word: 'Wasserkocher', en: 'electric kettle', sample: 'Das ist ein Gerät in der Küche, in dem man sehr schnell Wasser heiss macht.' },
     { art: 'das', word: 'Pflaster', en: 'sticking plaster', sample: 'Das klebt man auf eine kleine Wunde, zum Beispiel wenn man sich geschnitten hat.' },
     { art: 'die', word: 'Steckdose', en: 'power socket', sample: 'Das ist die Öffnung in der Wand, aus der man Strom bekommt.' },
     { art: 'der', word: 'Schlüsseldienst', en: 'locksmith service', sample: 'Die Leute, die man anruft, wenn man sich aus der Wohnung ausgesperrt hat.' },
     { art: 'das', word: 'Trinkgeld', en: 'tip (money)', sample: 'Das ist zusätzliches Geld, das man im Restaurant dem Kellner gibt, wenn man zufrieden war.' },
-    { art: 'die', word: 'Mülltrennung', en: 'waste separation', sample: 'In Deutschland wirft man Papier, Plastik und Restmüll in verschiedene Tonnen. So etwas wie Ordnung für den Abfall.' },
-    { art: 'der', word: 'Kostenvoranschlag', en: 'quotation / estimate', sample: 'Das ist eine Information, wie viel eine Reparatur ungefähr kosten wird, bevor man sie bestellt.' },
+    { art: 'die', word: 'Abfalltrennung', en: 'waste separation', sample: 'Papier, Glas und PET bringt man an verschiedene Sammelstellen, der Rest kommt in den Gebührensack. So etwas wie Ordnung für den Kehricht.' },
+    { art: 'die', word: 'Offerte', en: 'quotation / estimate', sample: 'Das ist ein schriftliches Angebot, wie viel eine Reparatur ungefähr kosten wird, bevor man sie bestellt.' },
     { art: 'die', word: 'Steuererklärung', en: 'tax return', sample: 'Das ist das Formular für das Finanzamt, in dem man angibt, wie viel man verdient hat.' },
     { art: 'die', word: 'Kündigung', en: 'notice of termination', sample: 'Wenn man offiziell sagt, dass man in einer Firma oder Wohnung aufhört, nennt man das so.' },
-    { art: 'die', word: 'Vorfahrt', en: 'right of way', sample: 'Das ist die Regel im Verkehr, die sagt, wer zuerst fahren darf.' },
+    { art: 'der', word: 'Vortritt', en: 'right of way', sample: 'Das ist die Regel im Verkehr, die sagt, wer zuerst fahren darf.' },
     { art: 'der', word: 'Anrufbeantworter', en: 'answering machine', sample: 'Das ist ein Gerät, das Nachrichten aufnimmt, wenn niemand ans Telefon geht.' },
-    { art: 'der', word: 'Reißverschluss', en: 'zip fastener', sample: 'Das ist das Teil an Jacken und Hosen, mit dem man sie zu- und aufmacht, indem man etwas hoch- und runterzieht.' }
+    { art: 'der', word: 'Reissverschluss', en: 'zip fastener', sample: 'Das ist das Teil an Jacken und Hosen, mit dem man sie zu- und aufmacht, indem man etwas hoch- und runterzieht.' }
   ];
 
   const circHints = ['Das ist so etwas wie …', 'Man benutzt es, um … zu …', 'Das sieht aus wie …, nur …', 'Das braucht man, wenn …'];

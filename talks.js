@@ -111,7 +111,7 @@
   /* ───────── Flow: the same talk three times, with less time each round ───────── */
   const PERSONAS = [
     { initial: 'L', name: 'Lena', desc: 'eine Freundin, die viel Zeit hat', reg: 'du' },
-    { initial: 'B', name: 'Herr Becker', desc: 'ein Kollege, höflich und aufmerksam', reg: 'Sie' },
+    { initial: 'M', name: 'Herr Meier', desc: 'ein Kollege, höflich und aufmerksam', reg: 'Sie' },
     { initial: 'K', name: 'Frau Kaya', desc: 'Radiomoderatorin, du hast nur wenig Sendezeit', reg: 'Sie' }
   ];
   const FLOW = { lang: [240, 180, 120], kurz: [120, 90, 60] };
