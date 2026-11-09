@@ -31,6 +31,20 @@ Offerte, Vortritt, Primarschule, es hat*), Swiss settings (Gotthard, GA and Halb
 voice prefers a Swiss (de-CH) voice when the device has one (Edge offers good ones, e.g. *Leni* and *Jan*), otherwise a
 German one. Speech recognition runs in de-CH. `tests/test_core.js` fails if a ß slips into the content.
 
+## Corrections
+
+After each recorded answer (phrase cards, quick reactions, role-plays, Flow rounds, Argument-Gerüst, Umschreiben),
+Claude corrects what you said: the corrected sentence with the changes marked, each mistake explained in your
+language, a more natural Swiss version, and one tip. Any mistake can go into the gap list with one click.
+
+It uses your **own Claude API key** (Mehr → Einstellungen → Korrektur; get one at platform.claude.com). The key is
+stored only in this browser, in its own entry, and is never part of a progress export. Each correction is one
+request to Claude Opus 5.5 (structured output, about one cent). The transcript comes from speech recognition, so
+punctuation, capitalisation and likely recognition errors are not counted as mistakes, and Helvetisms are never
+"corrected" towards German-German usage. If a request is declined by a safety classifier, the API's default
+fallback retries it on another model. Correction can run automatically or on a button press. The official SDK is
+vendored as one browser file in `vendor/` (see `vendor/README.md`) and loads only when needed.
+
 ## Languages
 
 Exercises are in German. Explanations, phrase meanings, usage notes, role-play situations and tasks are shown in
@@ -101,6 +115,7 @@ Apple's; choose recording-only or no microphone to avoid that. The only other ne
 | `content.js` | all learning content: stages, phrases, role-plays, topics, reactions, texts, missions |
 | `content.fr.js`, `i18n.fr.js` | French: content glosses by item id, and interface text keyed by the English string |
 | `sw.js`, `manifest.webmanifest`, `icon*` | offline cache and home-screen install |
+| `correct.js`, `vendor/` | corrections by Claude with the learner's own key; the bundled official SDK |
 | `core.js` | pure logic: spaced repetition, phrase matching, word diff, plan, progress. Loaded by the page and by Node tests |
 | `lib.js` | DOM helper, storage, German voice, microphone capture, recorder widget, router |
 | `drills.js` | Karten, Echo, Blitz, Umschreiben, Lückenliste |
@@ -122,6 +137,7 @@ node tests/test_core.js          # logic, content and translation completeness, 
 node tests/e2e_happy_path.js     # full browser walkthrough, needs `playwright` + Chromium
 node tests/e2e_degraded.js       # no mic / no voice / denied mic / round timing
 node tests/e2e_i18n.js           # every page in French: fails on any visible English sentence
+node tests/e2e_correction.js     # corrections, with the Claude API intercepted (no real requests)
 ```
 
 `test_core.js` also checks the content: every phrase example contains its phrase, and every role-play model answer

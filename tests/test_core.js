@@ -213,7 +213,7 @@ const ROOT = path.join(__dirname, '..');
 const unq = (x) => x.replace(/\\'/g, "'");
 function uiKeys() {
   const keys = new Set();
-  ['lib.js', 'drills.js', 'talks.js', 'pages.js'].forEach((f) => {
+  ['lib.js', 'drills.js', 'talks.js', 'pages.js', 'correct.js'].forEach((f) => {
     const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
     for (const m of src.matchAll(/SP\.t\('((?:[^'\\]|\\.)*)'/g)) keys.add(unq(m[1]));
   });

@@ -56,6 +56,7 @@
       const actions = h('div', { class: 'stack' });
       const rec = SP.recorder({
         chunks: hints, maxSecs: 120, noMicLabel: 'Ich habe geantwortet',
+        context: { kind: 'Role-play', situation: rp.setting, partner: st.npc, task: st.task },
         onDone: (res) => {
           taken = true;
           secs += res.secs || 0;
@@ -215,6 +216,7 @@
             h('div', { class: 'stat' }, h('b', null, r.wpm != null ? r.wpm : '–'), h('span', { class: 'muted small' }, 'Wörter / Min.'))),
           words == null ? h('p', { class: 'muted small' }, 'Ohne Spracherkennung messen wir nur die Zeit. Du kannst sie in den Einstellungen einschalten (Chrome, Edge, Safari).') : null,
           res.url ? h('audio', { controls: true, src: res.url, 'aria-label': 'Meine Aufnahme' }) : null,
+          res.transcript ? SP.correctionPanel(res.transcript, { kind: 'Fluency monologue (same talk three times, less time each round)', task: topic.title + ': ' + topic.points.join(' ') }) : null,
           h('p', { class: 'eyebrow' }, n < 2 ? 'Wie flüssig war es? Dann weiter mit Runde ' + (n + 2) : 'Wie flüssig war es? Dann zur Auswertung'),
           h('div', { class: 'rate' }, rate(1, 'Stockend'), rate(2, 'Mal so, mal so'), rate(3, 'Flüssig'))));
       }
@@ -345,6 +347,7 @@
             res.url ? h('audio', { controls: true, src: res.url, 'aria-label': 'Meine Aufnahme' }) : null,
             res.transcript ? h('div', { class: 'stack' }, h('div', { class: 'eyebrow' }, 'Erkannt'), h('p', { class: 'sentence' }, res.transcript)) : null,
             used.length ? h('div', { class: 'used' }, ...used.map((c) => SP.chip('✓ ' + c.de, 'good'))) : null,
+            res.transcript ? SP.correctionPanel(res.transcript, { kind: 'Opinion in five steps: position, reason, example, objection and answer, conclusion', task: topic.title }) : null,
             h('p', { class: 'muted small' }, SP.t('Listen back once. Which step was weakest: position, reason, example, objection or conclusion? Do that step again tomorrow with the same topic.'))),
           h('a', { class: 'btn primary', href: '#/ueben/luecken' }, 'Lücken notieren'),
           h('a', { class: 'btn', href: '#/ueben/argument/' + topic.id, onclick: () => setTimeout(() => SP.render(), 0) }, icon('refresh'), 'Dasselbe Thema nochmal'),

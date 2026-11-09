@@ -95,7 +95,7 @@
   function defaults() {
     return {
       v: 1,
-      settings: { mic: null, rate: 0.9, voice: '', goal: 20, newPerDay: 5, stage: 's1', theme: 'auto', lang: guessLang() },
+      settings: { mic: null, rate: 0.9, voice: '', goal: 20, newPerDay: 5, stage: 's1', theme: 'auto', lang: guessLang(), autoCorrect: true },
       cards: {}, custom: [], days: {}, flows: [], rp: {}, topics: {}, cando: {}, missions: {}, circ: {}, blitz: [], echo: {}, gaps: []
     };
   }
@@ -379,6 +379,8 @@
       } else if (res.url && mode === 'asr') {
         out.append(h('p', { class: 'muted small' }, 'Nichts erkannt. Sprich etwas lauter oder prüfe das Mikrofon.'));
       }
+      // what the learner said, corrected (exercises pass a context to ask for it)
+      if (o.context && res.transcript && SP.correctionPanel) { const panel = SP.correctionPanel(res.transcript, o.context); if (panel) out.append(panel); }
       if (o.onDone) o.onDone(res, out);
     }
 

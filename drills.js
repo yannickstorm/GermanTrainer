@@ -89,7 +89,7 @@
       let revealed = false;
       const answer = h('div', { class: 'stack' });
       const actions = h('div', { class: 'stack' });
-      const rec = SP.recorder({ chunks: [card], compact: true, onDone: () => { if (!revealed) reveal(); } });
+      const rec = SP.recorder({ chunks: [card], compact: true, context: { kind: 'Phrase card: say the German phrase for a given meaning', task: 'Say in German: ' + card.en, expected: card.de }, onDone: () => { if (!revealed) reveal(); } });
       function reveal() {
         if (revealed) return; revealed = true;
         Voice.speak(card.de);
@@ -252,6 +252,7 @@
           h('div', { class: 'row' }, SP.chip((idx + 1) + ' / ' + items.length), lat != null ? SP.chip('Reaktion nach ' + (lat / 1000).toFixed(1).replace('.', ',') + ' s', quick ? 'good' : 'warn') : null),
           h('div', { class: 'eyebrow' }, 'Du hast gehört'), h('div', { class: 'row nowrap' }, SP.speakBtn(it.say, { small: true, label: 'Nochmal hören' }), h('p', { class: 'sentence grow' }, it.say)),
           res && res.transcript ? h('div', { class: 'stack' }, h('div', { class: 'eyebrow' }, 'Du hast gesagt'), h('p', { class: 'sentence' }, res.transcript)) : null,
+          res && res.transcript ? SP.correctionPanel(res.transcript, { kind: 'Quick reaction', partner: it.say, task: 'React spontaneously and naturally, in one or two sentences' }) : null,
           h('div', { class: 'eyebrow' }, 'Mögliche Reaktionen'), ...rows,
           h('p', { class: 'eyebrow' }, 'Ehrlich: Wie war es?'),
           h('div', { class: 'rate', style: 'grid-template-columns:1fr 1fr' },
@@ -313,7 +314,7 @@
       const clock = h('div', { class: 'timer' }, '0:30');
       const answer = h('div', { class: 'stack' });
       const actions = h('div', { class: 'stack' });
-      const rec = SP.recorder({ onDone: () => reveal() , noMicLabel: 'Ich habe es beschrieben' });
+      const rec = SP.recorder({ onDone: () => reveal(), noMicLabel: 'Ich habe es beschrieben', context: { kind: 'Circumlocution', task: 'Describe the word „' + w.art + ' ' + w.word + '“ (' + w.en + ') without saying it' } });
       let left = 30;
       timer = setInterval(() => { left--; clock.textContent = SP.clock(Math.max(0, left)); clock.classList.toggle('low', left <= 5); if (left <= -10) clearInterval(timer); }, 1000);
       function reveal() {

@@ -291,6 +291,9 @@ details.acc[open] > summary::after { content: "−"; }
 details.acc > div { padding-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
 pre.prompt { white-space: pre-wrap; word-break: break-word; background: var(--surface-2); border-radius: 11px; padding: 12px; font: 0.85rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; margin: 0; max-height: 260px; overflow: auto; }
 
+.correction { gap: 10px; border-color: var(--accent-soft); }
+.spinner { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--accent-soft); border-top-color: var(--accent); animation: spin 0.8s linear infinite; flex: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
 .banner { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: var(--warn-soft); color: var(--warn); font-size: 0.9rem; }
 .banner.info { background: var(--accent-soft); color: var(--ink); }
 .empty { text-align: center; color: var(--ink-2); padding: 18px 8px; }

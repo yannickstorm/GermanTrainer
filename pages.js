@@ -325,6 +325,35 @@
         h('p', { class: 'muted' }, SP.t('Progress and gap list are kept in this browser only. Recordings stay in memory and disappear when you leave the exercise. If you turn on speech recognition, Chrome and Edge send the audio of that moment to their speech service; Safari uses Apple\'s. Choose "Nur aufnehmen" or "Ohne Mikrofon" to avoid that.'))));
   };
 
+  /* ───────── Korrektur (Claude API key) ───────── */
+  function correctionSettings() {
+    const has = SP.correctionReady();
+    const key = h('input', { class: 'input', id: 'set-key', type: 'password', autocomplete: 'off', spellcheck: false, placeholder: has ? '••••••••••••' : 'sk-ant-…' });
+    const msg = h('p', { class: 'small muted', role: 'status' });
+    const auto = h('input', { type: 'checkbox', id: 'set-auto', checked: state.settings.autoCorrect !== false, style: 'width:22px;height:22px;accent-color:var(--accent)', onchange: (e) => { state.settings.autoCorrect = e.target.checked; SP.save(); } });
+    const save = async () => {
+      const v = key.value.trim();
+      if (!v) return;
+      SP.apiKey.set(v); key.value = '';
+      msg.textContent = SP.t('Checking the key …');
+      let r = 'api';
+      try { r = await SP.checkApiKey(); } catch (e) { r = 'network'; }
+      msg.textContent = r === 'ok' ? SP.t('Key saved and working.') : r === 'auth' ? SP.t('This key was rejected. Check it and save again.') : SP.t('Key saved, but it could not be checked right now (no connection?).');
+      if (r === 'auth') SP.apiKey.set('');
+      key.placeholder = SP.correctionReady() ? '••••••••••••' : 'sk-ant-…';
+    };
+    return h('div', { class: 'card' }, h('h2', null, 'Korrektur'),
+      h('p', { class: 'muted small' }, SP.t('After each recording, Claude corrects what you said: mistakes explained in your language, a more natural Swiss version and a tip. This needs your own API key from the Claude Console; each correction costs about one cent.')),
+      h('label', { class: 'field', for: 'set-key' }, SP.t('Claude API key'), key),
+      h('div', { class: 'row' },
+        h('button', { type: 'button', class: 'btn primary small', onclick: save }, 'Speichern'),
+        h('button', { type: 'button', class: 'btn small danger', onclick: () => { SP.apiKey.set(''); key.placeholder = 'sk-ant-…'; msg.textContent = SP.t('Key removed.'); } }, 'Entfernen'),
+        h('a', { class: 'btn small ghost', href: 'https://platform.claude.com/settings/keys', target: '_blank', rel: 'noopener' }, SP.t('Get a key'))),
+      msg,
+      h('label', { style: 'display:flex;gap:10px;align-items:center;cursor:pointer' }, auto, h('span', null, SP.t('Correct automatically after each recording'))),
+      h('p', { class: 'muted tiny' }, SP.t('The key is stored only in this browser and is not included in exports. Transcripts you have corrected are sent to Anthropic. Tip: create a separate key with a monthly spending limit.')));
+  }
+
   /* ───────── Einstellungen ───────── */
   routes.einstellungen = function () {
     const s = state.settings;
@@ -358,6 +387,7 @@
         h('label', { class: 'field', for: 'set-new' }, 'Neue Karten pro Tag', sel('set-new', s.newPerDay, [[3, '3'], [5, '5'], [8, '8'], [12, '12']], (v) => set('newPerDay', +v))),
         h('label', { class: 'field', for: 'set-stage' }, 'Aktuelle Stufe', sel('set-stage', s.stage, CONTENT.stages.map((st) => [st.id, 'Stufe ' + st.n + ' · ' + st.title]), (v) => set('stage', v))),
         h('label', { class: 'field', for: 'set-theme' }, 'Darstellung', sel('set-theme', s.theme, [['auto', 'Automatisch'], ['light', 'Hell'], ['dark', 'Dunkel']], (v) => { set('theme', v); applyTheme(); }))),
+      correctionSettings(),
       h('div', { class: 'card flat' }, h('h2', null, 'Tipps'),
         h('p', { class: 'muted small' }, SP.t('Install on your phone: open the browser menu and choose "Add to Home screen". It then also works offline.')),
         h('p', { class: 'muted small' }, SP.t('Keyboard: Space records or stops, Enter reveals or continues, 1 2 3 rate a card.'))),

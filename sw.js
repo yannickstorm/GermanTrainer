@@ -1,9 +1,9 @@
 /* Sprechstunde service worker: network first (always the latest version when online), cache as offline fallback.
  * Bump VERSION when the list of files changes. */
 'use strict';
-const VERSION = 'sprechstunde-v2';
+const VERSION = 'sprechstunde-v3';
 const SHELL = ['./', 'index.html', 'styles.css', 'content.js', 'content.fr.js', 'core.js', 'i18n.fr.js', 'lib.js', 'drills.js',
-  'talks.js', 'pages.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png', 'icon-180.png'];
+  'talks.js', 'correct.js', 'vendor/anthropic-sdk.js', 'pages.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png', 'icon-180.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

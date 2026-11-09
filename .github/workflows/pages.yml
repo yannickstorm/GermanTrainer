@@ -36,6 +36,7 @@ jobs:
           node tests/e2e_happy_path.js
           node tests/e2e_degraded.js
           node tests/e2e_i18n.js
+          node tests/e2e_correction.js
 
   deploy:
     needs: test
@@ -52,7 +53,8 @@ jobs:
       - name: Assemble the site
         run: |
           mkdir _site
-          cp index.html styles.css *.js manifest.webmanifest icon.svg icon-*.png _site/
+          cp -r index.html styles.css *.js manifest.webmanifest icon.svg icon-*.png vendor _site/
+          rm -f _site/vendor/README.md
           touch _site/.nojekyll
           ls -la _site
       - uses: actions/configure-pages@v5
